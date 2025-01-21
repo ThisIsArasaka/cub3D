@@ -6,7 +6,7 @@
 #    By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/07 10:10:04 by olardeux          #+#    #+#              #
-#    Updated: 2025/01/07 11:09:12 by olardeux         ###   ########.fr        #
+#    Updated: 2025/01/21 09:39:32 by olardeux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ MLX = $(MLX_DIR)/libmlx.a
 SRC_DIR = ./src
 OBJ_DIR = ./obj
 INC_DIR = ./inc
-SRC_FILE = main.c
+SRC_FILE = main.c draw.c
 SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILE))
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILE:.c=.o))
 

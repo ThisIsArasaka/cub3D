@@ -6,11 +6,14 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/20 11:34:41 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/21 09:53:24 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
+
+int	**map = (int *[]){(int[]){1, 1, 1, 1, 1}, (int[]){1, 0, 0, 0, 1}, (int[]){1,
+		0, 1, 0, 1}, (int[]){1, 0, 0, 0, 1}, (int[]){1, 1, 1, 1, 1}};
 
 int	destroy(t_data *data)
 {
@@ -23,17 +26,26 @@ int	destroy(t_data *data)
 
 int	key_hook(int keycode, t_data *data)
 {
-	printf("keycode: %d\n", keycode);
-	if (keycode == 65307)
+	if (keycode == XK_Escape)
 		destroy(data);
+	return (0);
+}
+
+int	draw(t_data *data)
+{
+	draw_floor(data);
+	draw_ceiling(data);
+	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
 }
 
 int	main(int argc, char **argv)
 {
-	t_data data;
+	t_data	data;
 
 	(void)argv;
+	data.player.x = 2;
+	data.player.y = 2;
 	if (argc == 2)
 	{
 		data.mlx = mlx_init();
@@ -43,6 +55,7 @@ int	main(int argc, char **argv)
 				&data.img.line_len, &data.img.endian);
 		mlx_hook(data.win, 17, (1L << 17), destroy, &data);
 		mlx_hook(data.win, 2, (1L << 0), key_hook, &data);
+		mlx_loop_hook(data.mlx, draw, &data);
 		mlx_loop(data.mlx);
 	}
 	else
