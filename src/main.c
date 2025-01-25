@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/23 19:52:10 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:01:58 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,23 +23,35 @@ int	destroy(t_data *data)
 
 int	key_hook(int keycode, t_data *data)
 {
+	int	map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0,
+			0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0,
+			1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1},
+			{1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1,
+			1, 1, 1, 1, 1, 1, 1, 1, 1}};
+
 	if (keycode == XK_Escape)
 		destroy(data);
+	if (keycode == XK_m)
+		data->map.minimap = !data->map.minimap;
 	if (keycode == XK_w)
 	{
-		data->player.x += 1;
+		if (map[(int)data->player.y][(int)data->player.x + 1] == 0)
+			data->player.x += 1;
 	}
 	if (keycode == XK_s)
 	{
-		data->player.x -= 1;
+		if (map[(int)data->player.y][(int)data->player.x - 1] == 0)
+			data->player.x -= 1;
 	}
 	if (keycode == XK_a)
 	{
-		data->player.y -= 1;
+		if (map[(int)data->player.y - 1][(int)data->player.x] == 0)
+			data->player.y -= 1;
 	}
 	if (keycode == XK_d)
 	{
-		data->player.y += 1;
+		if (map[(int)data->player.y + 1][(int)data->player.x] == 0)
+			data->player.y += 1;
 	}
 	if (keycode == XK_Left)
 		data->player.dir -= 0.1;
@@ -55,6 +67,8 @@ int	draw(t_data *data)
 	draw_floor(data);
 	draw_ceiling(data);
 	draw_walls(data);
+	if (data->map.minimap)
+		draw_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
 }
@@ -67,8 +81,9 @@ int	main(int argc, char **argv)
 	data.player.x = 4;
 	data.player.y = 4;
 	data.player.dir = 0;
+	data.map.minimap = 0;
 	data.map.floor_color = 0x00FF0F00;
-	data.map.ceiling_color = 0x000F0F00;
+	data.map.ceiling_color = 0x00FF0F00;
 	if (argc == 2)
 	{
 		data.mlx = mlx_init();

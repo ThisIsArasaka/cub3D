@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/23 19:36:13 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/25 15:11:05 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,14 @@
 # include <unistd.h>
 
 # define PI 3.14159265358979323846
+# define FOV PI / 3
 
 typedef struct s_map
 {
 	int			**map;
 	int			floor_color;
 	int			ceiling_color;
+	int			minimap;
 }				t_map;
 
 typedef struct s_ray
@@ -42,6 +44,7 @@ typedef struct s_ray
 	double		stepy;
 	double		distx;
 	double		disty;
+	double		wall_dist;
 }				t_ray;
 
 typedef struct s_player
@@ -49,7 +52,6 @@ typedef struct s_player
 	double		x;
 	double		y;
 	double		dir;
-	double		plane;
 }				t_player;
 
 typedef struct s_img
@@ -75,6 +77,6 @@ void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void			draw_floor(t_data *data);
 void			draw_ceiling(t_data *data);
 void			draw_walls(t_data *data);
-void			draw_minimap(t_data *data);
+void			draw_map(t_data *data);
 
 #endif
