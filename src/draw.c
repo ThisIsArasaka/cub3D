@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/26 19:19:10 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:20:39 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,14 @@ void	dda(t_data *data, int x)
 	hit = 0;
 	player_x = data->player.x;
 	player_y = data->player.y;
-	delta_distx = fabs(1 / data->ray.ray_dirx);
-	delta_disty = fabs(1 / data->ray.ray_diry);
+	if (data->ray.ray_dirx == 0)
+		delta_distx = 1e30;
+	else
+		delta_distx = fabs(1 / data->ray.ray_dirx);
+	if (data->ray.ray_diry == 0)
+		delta_disty = 1e30;
+	else
+		delta_disty = fabs(1 / data->ray.ray_diry);
 	if (data->ray.ray_dirx < 0)
 	{
 		data->ray.stepx = -1;

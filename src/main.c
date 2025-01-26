@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/25 15:01:58 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/26 21:04:19 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,36 +23,14 @@ int	destroy(t_data *data)
 
 int	key_hook(int keycode, t_data *data)
 {
-	int	map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0,
-			0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0,
-			1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1},
-			{1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1}};
-
 	if (keycode == XK_Escape)
 		destroy(data);
 	if (keycode == XK_m)
 		data->map.minimap = !data->map.minimap;
-	if (keycode == XK_w)
-	{
-		if (map[(int)data->player.y][(int)data->player.x + 1] == 0)
-			data->player.x += 1;
-	}
-	if (keycode == XK_s)
-	{
-		if (map[(int)data->player.y][(int)data->player.x - 1] == 0)
-			data->player.x -= 1;
-	}
-	if (keycode == XK_a)
-	{
-		if (map[(int)data->player.y - 1][(int)data->player.x] == 0)
-			data->player.y -= 1;
-	}
-	if (keycode == XK_d)
-	{
-		if (map[(int)data->player.y + 1][(int)data->player.x] == 0)
-			data->player.y += 1;
-	}
+	if (keycode == XK_w || keycode == XK_s)
+		move_forward(data, keycode);
+	if (keycode == XK_a || keycode == XK_d)
+		move_sideways(data, keycode);
 	if (keycode == XK_Left)
 		data->player.dir -= 0.1;
 	if (keycode == XK_Right)

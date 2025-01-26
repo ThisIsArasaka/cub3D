@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/25 15:11:05 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/26 20:47:06 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3
+# define SPEED 0.1
 
 typedef struct s_map
 {
@@ -78,5 +79,8 @@ void			draw_floor(t_data *data);
 void			draw_ceiling(t_data *data);
 void			draw_walls(t_data *data);
 void			draw_map(t_data *data);
+
+void			move_forward(t_data *data, int keycode);
+void			move_sideways(t_data *data, int keycode);
 
 #endif
