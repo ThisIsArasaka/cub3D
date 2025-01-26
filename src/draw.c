@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/25 15:26:14 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/26 19:19:10 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,25 +60,33 @@ void	draw_ceiling(t_data *data)
 	}
 }
 
-void	put_wall_pixel(t_data *data, int x)
+void	put_wall_pixel(t_data *data, int x, int side)
 {
 	int	wall_height;
 	int	wall_start;
 	int	wall_end;
+	int	color;
 
-	wall_height = 1080 / data->ray.wall_dist;
+	wall_height = 1080 / data->ray.wall_dist * 0.5;
 	wall_start = 1080 / 2 - wall_height / 2;
 	wall_end = 1080 / 2 + wall_height / 2;
+	if (side == 0)
+	{
+		if (data->ray.ray_dirx > 0)
+			color = WALL_EAST;
+		else
+			color = WALL_WEST;
+	}
+	else
+	{
+		if (data->ray.ray_diry > 0)
+			color = WALL_SOUTH;
+		else
+			color = WALL_NORTH;
+	}
 	while (wall_start < wall_end)
 	{
-		if (data->ray.ray_dirx > 0 && data->ray.ray_diry > 0)
-			my_mlx_pixel_put(&data->img, x, wall_start, WALL_NORTH);
-		else if (data->ray.ray_dirx > 0 && data->ray.ray_diry < 0)
-			my_mlx_pixel_put(&data->img, x, wall_start, WALL_SOUTH);
-		else if (data->ray.ray_dirx < 0 && data->ray.ray_diry > 0)
-			my_mlx_pixel_put(&data->img, x, wall_start, WALL_EAST);
-		else if (data->ray.ray_dirx < 0 && data->ray.ray_diry < 0)
-			my_mlx_pixel_put(&data->img, x, wall_start, WALL_WEST);
+		my_mlx_pixel_put(&data->img, x, wall_start, color);
 		wall_start++;
 	}
 }
@@ -89,54 +97,52 @@ void	dda(t_data *data, int x)
 	int		side;
 	double	player_x;
 	double	player_y;
+	double	delta_distx;
+	double	delta_disty;
 	int		map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0,
 				0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
 				1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
 				1, 0, 1}, {1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0,
 				0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-	// double	wall_dist;
-	// int		wall_height;
-	// int		wall_start;
-	// int		wall_end;
 	hit = 0;
 	player_x = data->player.x;
 	player_y = data->player.y;
+	delta_distx = fabs(1 / data->ray.ray_dirx);
+	delta_disty = fabs(1 / data->ray.ray_diry);
 	if (data->ray.ray_dirx < 0)
 	{
 		data->ray.stepx = -1;
-		data->ray.distx = (data->player.x - (int)data->player.x)
-			* data->ray.ray_dirx;
+		data->ray.distx = (data->player.x - (int)data->player.x) * delta_distx;
 	}
 	else
 	{
 		data->ray.stepx = 1;
 		data->ray.distx = ((int)data->player.x + 1 - data->player.x)
-			* data->ray.ray_dirx;
+			* delta_distx;
 	}
 	if (data->ray.ray_diry < 0)
 	{
 		data->ray.stepy = -1;
-		data->ray.disty = (data->player.y - (int)data->player.y)
-			* data->ray.ray_diry;
+		data->ray.disty = (data->player.y - (int)data->player.y) * delta_disty;
 	}
 	else
 	{
 		data->ray.stepy = 1;
 		data->ray.disty = ((int)data->player.y + 1 - data->player.y)
-			* data->ray.ray_diry;
+			* delta_disty;
 	}
 	while (!hit)
 	{
 		if (data->ray.distx < data->ray.disty)
 		{
-			data->ray.distx += data->ray.ray_dirx;
+			data->ray.distx += delta_distx;
 			player_x += data->ray.stepx;
 			side = 0;
 		}
 		else
 		{
-			data->ray.disty += data->ray.ray_diry;
+			data->ray.disty += delta_disty;
 			player_y += data->ray.stepy;
 			side = 1;
 		}
@@ -153,17 +159,10 @@ void	dda(t_data *data, int x)
 		data->ray.wall_dist = (player_y - data->player.y + (1 - data->ray.stepy)
 				/ 2) / data->ray.ray_diry;
 	}
-	put_wall_pixel(data, x);
-	// wall_dist = sqrt(pow(player_x - data->player.x, 2) + pow(player_y
+	// data->ray.wall_dist = sqrt(pow(player_x - data->player.x, 2)
+	//		+ pow(player_y
 	// 			- data->player.y, 2));
-	// wall_height = 1080 / wall_dist;
-	// wall_start = 1080 / 2 - wall_height / 2;
-	// wall_end = 1080 / 2 + wall_height / 2;
-	// while (wall_start < wall_end)
-	// {
-	// 	my_mlx_pixel_put(&data->img, x, wall_start, WALL);
-	// 	wall_start++;
-	// }
+	put_wall_pixel(data, x, side);
 }
 
 void	draw_walls(t_data *data)
