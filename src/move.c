@@ -6,13 +6,13 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:42:21 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/26 20:33:36 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/27 11:00:44 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
 
-int	is_valid_position(double new_x, double new_y)
+int	is_valid_position(t_data *data, double *new_x, double *new_y)
 {
 	int	map_x;
 	int	map_y;
@@ -22,11 +22,13 @@ int	is_valid_position(double new_x, double new_y)
 			{1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1,
 			1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-	map_x = (int)new_x;
-	map_y = (int)new_y;
-	if (map[map_y][map_x] == 0)
-		return (1);
-	return (0);
+	map_x = (int)*new_x;
+	map_y = (int)*new_y;
+	if (map[(int)data->player.y][map_x] == 1)
+		*new_x = data->player.x;
+	if (map[map_y][(int)data->player.x] == 1)
+		*new_y = data->player.y;
+	return (1);
 }
 
 void	move_forward(t_data *data, int keycode)
@@ -38,7 +40,7 @@ void	move_forward(t_data *data, int keycode)
 	{
 		new_x = data->player.x + cos(data->player.dir) * SPEED;
 		new_y = data->player.y + sin(data->player.dir) * SPEED;
-		if (is_valid_position(new_x, new_y))
+		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
 			data->player.y = new_y;
@@ -48,7 +50,7 @@ void	move_forward(t_data *data, int keycode)
 	{
 		new_x = data->player.x - cos(data->player.dir) * SPEED;
 		new_y = data->player.y - sin(data->player.dir) * SPEED;
-		if (is_valid_position(new_x, new_y))
+		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
 			data->player.y = new_y;
@@ -62,9 +64,9 @@ void	move_sideways(t_data *data, int keycode)
 
 	if (keycode == XK_a)
 	{
-		new_x = data->player.x - cos(data->player.dir) * SPEED;
-		new_y = data->player.y + sin(data->player.dir) * SPEED;
-		if (is_valid_position(new_x, new_y))
+		new_x = data->player.x + sin(data->player.dir) * SPEED;
+		new_y = data->player.y - cos(data->player.dir) * SPEED;
+		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
 			data->player.y = new_y;
@@ -72,9 +74,9 @@ void	move_sideways(t_data *data, int keycode)
 	}
 	if (keycode == XK_d)
 	{
-		new_x = data->player.x + cos(data->player.dir) * SPEED;
-		new_y = data->player.y - sin(data->player.dir) * SPEED;
-		if (is_valid_position(new_x, new_y))
+		new_x = data->player.x - sin(data->player.dir) * SPEED;
+		new_y = data->player.y + cos(data->player.dir) * SPEED;
+		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
 			data->player.y = new_y;

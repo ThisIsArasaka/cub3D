@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/26 21:04:19 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/27 09:36:50 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ int	main(int argc, char **argv)
 		mlx_loop(data.mlx);
 	}
 	else
-	{
 		printf("Error\n");
-	}
 	return (0);
 }

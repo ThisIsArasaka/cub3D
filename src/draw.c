@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/26 20:20:39 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:46:15 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
 	char	*dst;
 
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return ;
 	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
 }
@@ -30,10 +32,10 @@ void	draw_floor(t_data *data)
 	int	y;
 
 	x = 0;
-	while (x < 1920)
+	while (x < WIDTH)
 	{
-		y = 1080 / 2;
-		while (y < 1080)
+		y = HEIGHT / 2;
+		while (y < HEIGHT)
 		{
 			my_mlx_pixel_put(&data->img, x, y, data->map.floor_color);
 			y++;
@@ -48,10 +50,10 @@ void	draw_ceiling(t_data *data)
 	int	y;
 
 	x = 0;
-	while (x < 1920)
+	while (x < WIDTH)
 	{
 		y = 0;
-		while (y < 1080 / 2)
+		while (y < HEIGHT / 2)
 		{
 			my_mlx_pixel_put(&data->img, x, y, data->map.ceiling_color);
 			y++;
@@ -67,9 +69,9 @@ void	put_wall_pixel(t_data *data, int x, int side)
 	int	wall_end;
 	int	color;
 
-	wall_height = 1080 / data->ray.wall_dist * 0.5;
-	wall_start = 1080 / 2 - wall_height / 2;
-	wall_end = 1080 / 2 + wall_height / 2;
+	wall_height = HEIGHT / data->ray.wall_dist * 0.5;
+	wall_start = HEIGHT / 2 - wall_height / 2;
+	wall_end = HEIGHT / 2 + wall_height / 2;
 	if (side == 0)
 	{
 		if (data->ray.ray_dirx > 0)
@@ -95,8 +97,8 @@ void	dda(t_data *data, int x)
 {
 	int		hit;
 	int		side;
-	double	player_x;
-	double	player_y;
+	int		map_x;
+	int		map_y;
 	double	delta_distx;
 	double	delta_disty;
 	int		map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0,
@@ -106,8 +108,8 @@ void	dda(t_data *data, int x)
 				0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
 	hit = 0;
-	player_x = data->player.x;
-	player_y = data->player.y;
+	map_x = (int)data->player.x;
+	map_y = (int)data->player.y;
 	if (data->ray.ray_dirx == 0)
 		delta_distx = 1e30;
 	else
@@ -143,31 +145,30 @@ void	dda(t_data *data, int x)
 		if (data->ray.distx < data->ray.disty)
 		{
 			data->ray.distx += delta_distx;
-			player_x += data->ray.stepx;
+			map_x += data->ray.stepx;
 			side = 0;
 		}
 		else
 		{
 			data->ray.disty += delta_disty;
-			player_y += data->ray.stepy;
+			map_y += data->ray.stepy;
 			side = 1;
 		}
-		if (map[(int)player_y][(int)player_x] == 1)
+		if (map[map_y][map_x] == 1)
 			hit = 1;
 	}
 	if (side == 0)
 	{
-		data->ray.wall_dist = (player_x - data->player.x + (1 - data->ray.stepx)
+		data->ray.wall_dist = (map_x - data->player.x + (1 - data->ray.stepx)
 				/ 2) / data->ray.ray_dirx;
 	}
 	else
 	{
-		data->ray.wall_dist = (player_y - data->player.y + (1 - data->ray.stepy)
+		data->ray.wall_dist = (map_y - data->player.y + (1 - data->ray.stepy)
 				/ 2) / data->ray.ray_diry;
 	}
-	// data->ray.wall_dist = sqrt(pow(player_x - data->player.x, 2)
-	//		+ pow(player_y
-	// 			- data->player.y, 2));
+	if (data->ray.wall_dist < 0)
+		data->ray.wall_dist = 1e30;
 	put_wall_pixel(data, x, side);
 }
 
@@ -176,9 +177,9 @@ void	draw_walls(t_data *data)
 	int	x;
 
 	x = 0;
-	while (x < 1920)
+	while (x < WIDTH)
 	{
-		data->ray.ray_angle = data->player.dir - FOV / 2 + (x * FOV / 1920);
+		data->ray.ray_angle = data->player.dir - FOV / 2 + (x * FOV / WIDTH);
 		data->ray.ray_dirx = cos(data->ray.ray_angle);
 		data->ray.ray_diry = sin(data->ray.ray_angle);
 		dda(data, x);

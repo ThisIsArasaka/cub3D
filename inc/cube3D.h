@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/26 20:47:06 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:44:42 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,9 @@
 # include <sys/time.h>
 # include <time.h>
 # include <unistd.h>
+
+# define HEIGHT 1080
+# define WIDTH 1920
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3
