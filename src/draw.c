@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/27 10:46:15 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/28 08:46:06 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@ void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 		return ;
 	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
 	*(unsigned int *)dst = color;
+}
+
+int	get_pixel_color(t_img *img, int x, int y)
+{
+	char	*dst;
+
+	if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+		return (0);
+	dst = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	return (*(unsigned int *)dst);
 }
 
 void	draw_floor(t_data *data)
@@ -64,30 +74,51 @@ void	draw_ceiling(t_data *data)
 
 void	put_wall_pixel(t_data *data, int x, int side)
 {
-	int	wall_height;
-	int	wall_start;
-	int	wall_end;
-	int	color;
+	int		wall_height;
+	int		wall_start;
+	int		wall_end;
+	int		color;
+	double	wall_x;
+	int		texture_x;
+	int		texture_y;
+	double	step;
+	double	tex_pos;
+	t_img	*texture;
 
-	wall_height = HEIGHT / data->ray.wall_dist * 0.5;
+	wall_height = HEIGHT / data->ray.wall_dist;
 	wall_start = HEIGHT / 2 - wall_height / 2;
 	wall_end = HEIGHT / 2 + wall_height / 2;
 	if (side == 0)
 	{
 		if (data->ray.ray_dirx > 0)
-			color = WALL_EAST;
+			texture = &data->texture.east;
 		else
-			color = WALL_WEST;
+			texture = &data->texture.west;
 	}
 	else
 	{
 		if (data->ray.ray_diry > 0)
-			color = WALL_SOUTH;
+			texture = &data->texture.south;
 		else
-			color = WALL_NORTH;
+			texture = &data->texture.north;
 	}
+	if (side == 0)
+		wall_x = data->player.y + data->ray.wall_dist * data->ray.ray_diry;
+	else
+		wall_x = data->player.x + data->ray.wall_dist * data->ray.ray_dirx;
+	wall_x -= floor(wall_x);
+	texture_x = wall_x * texture->width;
+	if (side == 0 && data->ray.ray_dirx > 0)
+		texture_x = texture->width - texture_x - 1;
+	if (side == 1 && data->ray.ray_diry < 0)
+		texture_x = texture->width - texture_x - 1;
+	step = 1.0 * texture->height / wall_height;
+	tex_pos = (wall_start - HEIGHT / 2 + wall_height / 2) * step;
 	while (wall_start < wall_end)
 	{
+		texture_y = (int)tex_pos % (texture->height - 1);
+		tex_pos += step;
+		color = get_pixel_color(texture, texture_x, texture_y);
 		my_mlx_pixel_put(&data->img, x, wall_start, color);
 		wall_start++;
 	}

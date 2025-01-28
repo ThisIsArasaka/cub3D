@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/27 10:44:42 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/28 10:08:54 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@
 typedef struct s_map
 {
 	int			**map;
+	int			width;
+	int			height;
 	int			floor_color;
 	int			ceiling_color;
 	int			minimap;
@@ -65,7 +67,17 @@ typedef struct s_img
 	int			bpp;
 	int			line_len;
 	int			endian;
+	int			width;
+	int			height;
 }				t_img;
+
+typedef struct s_texture
+{
+	t_img		north;
+	t_img		south;
+	t_img		east;
+	t_img		west;
+}				t_texture;
 
 typedef struct s_data
 {
@@ -75,6 +87,8 @@ typedef struct s_data
 	t_player	player;
 	t_map		map;
 	t_ray		ray;
+	t_texture	texture;
+
 }				t_data;
 
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
@@ -85,5 +99,7 @@ void			draw_map(t_data *data);
 
 void			move_forward(t_data *data, int keycode);
 void			move_sideways(t_data *data, int keycode);
+
+int				init_texture(t_data *data);
 
 #endif

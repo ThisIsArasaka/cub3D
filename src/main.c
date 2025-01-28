@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/27 09:36:50 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/28 11:28:34 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,16 @@
 
 int	destroy(t_data *data)
 {
-	mlx_destroy_window(data->mlx, data->win);
+	if (data->texture.east.img)
+		mlx_destroy_image(data->mlx, data->texture.east.img);
+	if (data->texture.north.img)
+		mlx_destroy_image(data->mlx, data->texture.north.img);
+	if (data->texture.south.img)
+		mlx_destroy_image(data->mlx, data->texture.south.img);
+	if (data->texture.west.img)
+		mlx_destroy_image(data->mlx, data->texture.west.img);
 	mlx_destroy_image(data->mlx, data->img.img);
+	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
 	exit(0);
@@ -40,6 +48,11 @@ int	key_hook(int keycode, t_data *data)
 	return (0);
 }
 
+// int	mouse_hook(int button, int x, int y, t_data *data)
+// {
+// 	return (0);
+// }
+
 int	draw(t_data *data)
 {
 	draw_floor(data);
@@ -60,7 +73,9 @@ int	main(int argc, char **argv)
 	data.player.y = 4;
 	data.player.dir = 0;
 	data.map.minimap = 0;
-	data.map.floor_color = 0x00FF0F00;
+	data.map.width = 10;
+	data.map.height = 9;
+	data.map.floor_color = 0x00FF0FF0;
 	data.map.ceiling_color = 0x00FF0F00;
 	if (argc == 2)
 	{
@@ -69,8 +84,11 @@ int	main(int argc, char **argv)
 		data.img.img = mlx_new_image(data.mlx, 1920, 1080);
 		data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
 				&data.img.line_len, &data.img.endian);
+		if (!init_texture(&data))
+			return (0);
 		mlx_hook(data.win, 17, (1L << 17), destroy, &data);
 		mlx_hook(data.win, 2, (1L << 0), key_hook, &data);
+		// mlx_mouse_hook(data.win, mouse_hook, &data);
 		mlx_loop_hook(data.mlx, draw, &data);
 		mlx_loop(data.mlx);
 	}
