@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/28 11:28:34 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/28 13:11:59 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,6 @@ int	key_hook(int keycode, t_data *data)
 	return (0);
 }
 
-// int	mouse_hook(int button, int x, int y, t_data *data)
-// {
-// 	return (0);
-// }
-
 int	draw(t_data *data)
 {
 	draw_floor(data);
@@ -76,7 +71,7 @@ int	main(int argc, char **argv)
 	data.map.width = 10;
 	data.map.height = 9;
 	data.map.floor_color = 0x00FF0FF0;
-	data.map.ceiling_color = 0x00FF0F00;
+	data.map.ceiling_color = 0x00FFFF0F;
 	if (argc == 2)
 	{
 		data.mlx = mlx_init();

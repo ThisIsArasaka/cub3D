@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/28 10:08:54 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/29 10:04:24 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 # define HEIGHT 1080
 # define WIDTH 1920
+
+# define MINIMAP_SIZE 10
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3

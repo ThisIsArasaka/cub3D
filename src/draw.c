@@ -6,15 +6,11 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/28 08:46:06 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/01/30 10:38:39 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
-#define WALL_NORTH 0x00FF88FF
-#define WALL_SOUTH 0x00FFFFAA
-#define WALL_EAST 0x00CCFFFF
-#define WALL_WEST 0x00FFFF40
 
 void	my_mlx_pixel_put(t_img *img, int x, int y, int color)
 {
@@ -218,46 +214,76 @@ void	draw_walls(t_data *data)
 	}
 }
 
+void	draw_player_map(t_data *data)
+{
+	int		player_x;
+	int		player_y;
+	int		arrow_x;
+	int		arrow_y;
+	double	angle;
+	int		i;
+
+	player_x = 50 + cos(data->player.dir) * 5;
+	player_y = 50 + sin(data->player.dir) * 5;
+	i = 1;
+	while (i < 10)
+	{
+		angle = data->player.dir + (PI * 5) / 6;
+		arrow_x = player_x + cos(angle) * i;
+		arrow_y = player_y + sin(angle) * i;
+		my_mlx_pixel_put(&data->img, arrow_x, arrow_y, 0x00FF0000);
+		angle = data->player.dir - (PI * 5) / 6;
+		arrow_x = player_x + cos(angle) * i;
+		arrow_y = player_y + sin(angle) * i;
+		my_mlx_pixel_put(&data->img, arrow_x, arrow_y, 0x00FF0000);
+		i++;
+	}
+	player_x = arrow_x;
+	player_y = arrow_y;
+	i = 1;
+	while (i < 10)
+	{
+		angle = data->player.dir + PI / 2;
+		arrow_x = player_x + cos(angle) * i;
+		arrow_y = player_y + sin(angle) * i;
+		my_mlx_pixel_put(&data->img, arrow_x, arrow_y, 0x00FF0000);
+		i++;
+	}
+}
+
 void	draw_map(t_data *data)
 {
-	int	map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0, 0,
-			0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0,
-			1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1},
-			{1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1,
-			1, 1, 1, 1, 1, 1, 1, 1, 1}};
-	int	x;
-	int	y;
-	int	screen_x;
-	int	screen_y;
+	int		map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0, 0,
+				0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
+				1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
+				1, 0, 1}, {1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0,
+				0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+	int		screen_x;
+	int		screen_y;
+	double	map_x;
+	double	map_y;
 
-	y = 0;
 	screen_y = 0;
-	while (y < 9)
+	while (screen_y < 100)
 	{
-		x = 0;
 		screen_x = 0;
-		while (x < 10)
+		while (screen_x < 100)
 		{
-			while (screen_x < 19 * (x + 1))
+			map_x = data->player.x - 5 + (double)screen_x / MINIMAP_SIZE;
+			map_y = data->player.y - 5 + (double)screen_y / MINIMAP_SIZE;
+			if (map_x >= 0 && map_x < data->map.width && map_y >= 0
+				&& map_y < data->map.height)
 			{
-				screen_y = 19 * y;
-				while (screen_y < 19 * (y + 1))
-				{
-					if (y == (int)data->player.y && x == (int)data->player.x)
-						my_mlx_pixel_put(&data->img, screen_x, screen_y,
-							0x00FF00FF);
-					else if (map[y][x] == 1)
-						my_mlx_pixel_put(&data->img, screen_x, screen_y,
-							0x00FF0000);
-					else if (map[y][x] == 0)
-						my_mlx_pixel_put(&data->img, screen_x, screen_y,
-							0x000000FF);
-					screen_y++;
-				}
-				screen_x++;
+				if (map[(int)map_y][(int)map_x] == 1)
+					my_mlx_pixel_put(&data->img, screen_x, screen_y,
+						0x00FF0000);
+				else
+					my_mlx_pixel_put(&data->img, screen_x, screen_y,
+						0x0000FF00);
 			}
-			x++;
+			screen_x++;
 		}
-		y++;
+		screen_y++;
 	}
+	draw_player_map(data);
 }
