@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:42:21 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 09:19:26 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:19:46 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	move_forward(t_data *data, int keycode)
 
 	if (keycode == XK_w)
 	{
-		new_x = data->player.x + cos(data->player.dir) * SPEED;
-		new_y = data->player.y + sin(data->player.dir) * SPEED;
+		new_x = data->player.x + (cos(data->player.dir) + 0.1) * SPEED;
+		new_y = data->player.y + (sin(data->player.dir) + 0.1) * SPEED;
 		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
@@ -65,8 +65,8 @@ void	move_forward(t_data *data, int keycode)
 	}
 	if (keycode == XK_s)
 	{
-		new_x = data->player.x - cos(data->player.dir) * SPEED;
-		new_y = data->player.y - sin(data->player.dir) * SPEED;
+		new_x = data->player.x - (cos(data->player.dir) + 0.1) * SPEED;
+		new_y = data->player.y - (sin(data->player.dir) + 0.1) * SPEED;
 		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
@@ -81,8 +81,8 @@ void	move_sideways(t_data *data, int keycode)
 
 	if (keycode == XK_a)
 	{
-		new_x = data->player.x + sin(data->player.dir) * SPEED;
-		new_y = data->player.y - cos(data->player.dir) * SPEED;
+		new_x = data->player.x + (sin(data->player.dir) + 0.1) * SPEED;
+		new_y = data->player.y - (cos(data->player.dir) + 0.1) * SPEED;
 		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;
@@ -91,8 +91,8 @@ void	move_sideways(t_data *data, int keycode)
 	}
 	if (keycode == XK_d)
 	{
-		new_x = data->player.x - sin(data->player.dir) * SPEED;
-		new_y = data->player.y + cos(data->player.dir) * SPEED;
+		new_x = data->player.x - (sin(data->player.dir) + 0.1) * SPEED;
+		new_y = data->player.y + (cos(data->player.dir) + 0.1) * SPEED;
 		if (is_valid_position(data, &new_x, &new_y))
 		{
 			data->player.x = new_x;

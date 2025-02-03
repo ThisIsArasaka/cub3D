@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 09:04:37 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:29:45 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@
 # include <time.h>
 # include <unistd.h>
 
-# define HEIGHT 1080
-# define WIDTH 1920
+# define HEIGHT 540
+# define WIDTH  960
 
 # define MINIMAP_SIZE 10
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3
 # define SPEED 0.1
+# define ROT_SPEED 0.31 / 2
 
 # define SOUTH PI / 2
 # define NORTH 3 * PI / 2

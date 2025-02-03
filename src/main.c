@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 09:14:52 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 12:21:37 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	key_hook(int keycode, t_data *data)
 	if (keycode == XK_a || keycode == XK_d)
 		move_sideways(data, keycode);
 	if (keycode == XK_Left)
-		data->player.dir -= 0.1;
+		data->player.dir -= ROT_SPEED;
 	if (keycode == XK_Right)
-		data->player.dir += 0.1;
+		data->player.dir += ROT_SPEED;
 	printf("x: %f, y: %f, dir: %f\n", data->player.x, data->player.y,
 		data->player.dir);
 	return (0);
@@ -75,8 +75,8 @@ int	main(int argc, char **argv)
 	if (argc == 2)
 	{
 		data.mlx = mlx_init();
-		data.win = mlx_new_window(data.mlx, 1920, 1080, "cube3D");
-		data.img.img = mlx_new_image(data.mlx, 1920, 1080);
+		data.win = mlx_new_window(data.mlx, WIDTH, HEIGHT, "cube3D");
+		data.img.img = mlx_new_image(data.mlx, WIDTH, HEIGHT);
 		data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
 				&data.img.line_len, &data.img.endian);
 		if (!init_texture(&data))
