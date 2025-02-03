@@ -6,7 +6,7 @@
 #    By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/07 10:10:04 by olardeux          #+#    #+#              #
-#    Updated: 2025/01/28 12:35:57 by olardeux         ###   ########.fr        #
+#    Updated: 2025/02/03 11:34:46 by olardeux         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = cub3D
 CC = clang
 CFLAGS = -Wall -Wextra -Werror -g3
 MLXFLAGS = -lXext -lX11 -lm -lz
-MLX_DIR = ./minilibx-linux
+MLX_DIR = ./mlx
 MLX = $(MLX_DIR)/libmlx.a
 SRC_DIR = ./src
 OBJ_DIR = ./obj
