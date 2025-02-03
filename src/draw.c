@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 12:52:22 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 13:12:36 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,6 @@ void	dda(t_data *data, int x)
 {
 	int		hit;
 	int		side;
-	int		map_x;
-	int		map_y;
-	double	delta_distx;
-	double	delta_disty;
 	int		map[15][15] = {
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
@@ -145,76 +141,72 @@ void	dda(t_data *data, int x)
 	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
 	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 
-	// int		map[9][10] = {{1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, {1, 0, 0, 0, 0, 0,
-	//			0,
-	// 			0, 0, 1}, {1, 0, 0, 0, 0, 0, 0, 0, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
-	// 			1, 0, 1}, {1, 0, 1, 0, 0, 0, 0, 1, 0, 1}, {1, 0, 1, 0, 0, 0, 0,
-	// 			1, 0, 1}, {1, 0, 1, 1, 1, 1, 1, 1, 0, 1}, {1, 0, 0, 0, 0, 0, 0,
-	// 			0, 0, 1}, {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
 	hit = 0;
-	map_x = (int)data->player.x;
-	map_y = (int)data->player.y;
-	if (data->ray.ray_dirx == 0)
-		delta_distx = 1e30;
-	else
-		delta_distx = fabs(1 / data->ray.ray_dirx);
-	if (data->ray.ray_diry == 0)
-		delta_disty = 1e30;
-	else
-		delta_disty = fabs(1 / data->ray.ray_diry);
-	if (data->ray.ray_dirx < 0)
-	{
-		data->ray.stepx = -1;
-		data->ray.distx = (data->player.x - (int)data->player.x) * delta_distx;
-	}
-	else
-	{
-		data->ray.stepx = 1;
-		data->ray.distx = ((int)data->player.x + 1 - data->player.x)
-			* delta_distx;
-	}
-	if (data->ray.ray_diry < 0)
-	{
-		data->ray.stepy = -1;
-		data->ray.disty = (data->player.y - (int)data->player.y) * delta_disty;
-	}
-	else
-	{
-		data->ray.stepy = 1;
-		data->ray.disty = ((int)data->player.y + 1 - data->player.y)
-			* delta_disty;
-	}
 	while (!hit)
 	{
 		if (data->ray.distx < data->ray.disty)
 		{
-			data->ray.distx += delta_distx;
-			map_x += data->ray.stepx;
+			data->ray.distx += data->ray.delta_distx;
+			data->ray.map_x += data->ray.stepx;
 			side = 0;
 		}
 		else
 		{
-			data->ray.disty += delta_disty;
-			map_y += data->ray.stepy;
+			data->ray.disty += data->ray.delta_disty;
+			data->ray.map_y += data->ray.stepy;
 			side = 1;
 		}
-		if (map[map_y][map_x] == 1)
+		if (map[data->ray.map_y][data->ray.map_x] == 1)
 			hit = 1;
 	}
 	if (side == 0)
 	{
-		data->ray.wall_dist = (map_x - data->player.x + (1 - data->ray.stepx)
+		data->ray.wall_dist = (data->ray.map_x - data->player.x + (1 - data->ray.stepx)
 				/ 2) / data->ray.ray_dirx;
 	}
 	else
 	{
-		data->ray.wall_dist = (map_y - data->player.y + (1 - data->ray.stepy)
+		data->ray.wall_dist = (data->ray.map_y - data->player.y + (1 - data->ray.stepy)
 				/ 2) / data->ray.ray_diry;
 	}
 	data->ray.wall_dist *= cos(data->ray.ray_angle - data->player.dir);
 	if (data->ray.wall_dist < 0)
 		data->ray.wall_dist = 1e30;
 	put_wall_pixel(data, x, side);
+}
+
+void init_dda(t_data *data)
+{
+	if (data->ray.ray_dirx == 0)
+		data->ray.delta_distx = 1e30;
+	else
+		data->ray.delta_distx = fabs(1 / data->ray.ray_dirx);
+	if (data->ray.ray_diry == 0)
+		data->ray.delta_disty = 1e30;
+	else
+		data->ray.delta_disty = fabs(1 / data->ray.ray_diry);
+	if (data->ray.ray_dirx < 0)
+	{
+		data->ray.stepx = -1;
+		data->ray.distx = (data->player.x - (int)data->player.x) * data->ray.delta_distx;
+	}
+	else
+	{
+		data->ray.stepx = 1;
+		data->ray.distx = ((int)data->player.x + 1 - data->player.x)
+			* data->ray.delta_distx;
+	}
+	if (data->ray.ray_diry < 0)
+	{
+		data->ray.stepy = -1;
+		data->ray.disty = (data->player.y - (int)data->player.y) * data->ray.delta_disty;
+	}
+	else
+	{
+		data->ray.stepy = 1;
+		data->ray.disty = ((int)data->player.y + 1 - data->player.y)
+			* data->ray.delta_disty;
+	}
 }
 
 void	draw_walls(t_data *data)
@@ -224,9 +216,12 @@ void	draw_walls(t_data *data)
 	x = 0;
 	while (x < WIDTH)
 	{
+		data->ray.map_x = (int)data->player.x;
+		data->ray.map_y = (int)data->player.y;
 		data->ray.ray_angle = data->player.dir - FOV / 2 + (x * FOV / WIDTH);
 		data->ray.ray_dirx = cos(data->ray.ray_angle);
 		data->ray.ray_diry = sin(data->ray.ray_angle);
+		init_dda(data);
 		dda(data, x);
 		x++;
 	}

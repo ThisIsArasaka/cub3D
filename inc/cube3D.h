@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 12:29:45 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:14:14 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <unistd.h>
 
 # define HEIGHT 540
-# define WIDTH  960
+# define WIDTH 960
 
 # define MINIMAP_SIZE 10
 
@@ -33,6 +33,7 @@
 # define FOV PI / 3
 # define SPEED 0.1
 # define ROT_SPEED 0.31 / 2
+# define SENSITIVITY 0.005
 
 # define SOUTH PI / 2
 # define NORTH 3 * PI / 2
@@ -51,6 +52,8 @@ typedef struct s_map
 
 typedef struct s_ray
 {
+	int			map_x;
+	int			map_y;
 	double		ray_angle;
 	double		ray_dirx;
 	double		ray_diry;
@@ -58,6 +61,8 @@ typedef struct s_ray
 	double		stepy;
 	double		distx;
 	double		disty;
+	double		delta_distx;
+	double		delta_disty;
 	double		wall_dist;
 }				t_ray;
 
@@ -96,7 +101,6 @@ typedef struct s_data
 	t_map		map;
 	t_ray		ray;
 	t_texture	texture;
-
 }				t_data;
 
 void			my_mlx_pixel_put(t_img *img, int x, int y, int color);

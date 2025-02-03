@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 12:21:37 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/03 14:45:52 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	destroy(t_data *data)
 	exit(0);
 }
 
-int	key_hook(int keycode, t_data *data)
+int	move_hook(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		destroy(data);
@@ -45,6 +45,17 @@ int	key_hook(int keycode, t_data *data)
 		data->player.dir += ROT_SPEED;
 	printf("x: %f, y: %f, dir: %f\n", data->player.x, data->player.y,
 		data->player.dir);
+	return (0);
+}
+
+int	mouse_hook(int x, int y, t_data *data)
+{
+	int	delta_x;
+
+	(void)y;
+	delta_x = x - WIDTH / 2;
+	data->player.dir += delta_x * SENSITIVITY;
+	mlx_mouse_move(data->mlx, data->win, WIDTH / 2, HEIGHT / 2);
 	return (0);
 }
 
@@ -82,9 +93,10 @@ int	main(int argc, char **argv)
 		if (!init_texture(&data))
 			return (0);
 		mlx_hook(data.win, 17, (1L << 17), destroy, &data);
-		mlx_hook(data.win, 2, (1L << 0), key_hook, &data);
-		// mlx_mouse_hook(data.win, mouse_hook, &data);
+		mlx_hook(data.win, 2, (1L << 0), move_hook, &data);
+		mlx_hook(data.win, 6, (1L << 6), mouse_hook, &data);
 		mlx_loop_hook(data.mlx, draw, &data);
+		mlx_mouse_hide(data.mlx, data.win);
 		mlx_loop(data.mlx);
 	}
 	else
