@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 14:14:14 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/04 11:05:07 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,12 @@
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3
+
+
 # define SPEED 0.1
 # define ROT_SPEED 0.31 / 2
 # define SENSITIVITY 0.005
+# define MARGIN 0.5
 
 # define SOUTH PI / 2
 # define NORTH 3 * PI / 2
@@ -90,6 +93,7 @@ typedef struct s_texture
 	t_img		south;
 	t_img		east;
 	t_img		west;
+	t_img		door;
 }				t_texture;
 
 typedef struct s_data

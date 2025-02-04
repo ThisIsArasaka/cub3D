@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/01/28 12:10:44 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/04 12:00:07 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ void	init_texture_img(t_data *data)
 	data->texture.west.addr = mlx_get_data_addr(data->texture.west.img,
 			&data->texture.west.bpp, &data->texture.west.line_len,
 			&data->texture.west.endian);
+	data->texture.door.addr = mlx_get_data_addr(data->texture.door.img,
+			&data->texture.door.bpp, &data->texture.door.line_len,
+			&data->texture.door.endian);
 }
 
 int	init_texture(t_data *data)
@@ -42,6 +45,9 @@ int	init_texture(t_data *data)
 	data->texture.west.img = mlx_xpm_file_to_image(data->mlx,
 			"sprite/WEST_WALL.xpm", &data->texture.west.width,
 			&data->texture.west.height);
+	data->texture.door.img = mlx_xpm_file_to_image(data->mlx,
+			"sprite/DOOR.xpm", &data->texture.door.width,
+			&data->texture.door.height);
 	if (!data->texture.north.img || !data->texture.south.img
 		|| !data->texture.east.img || !data->texture.west.img)
 		return (0);

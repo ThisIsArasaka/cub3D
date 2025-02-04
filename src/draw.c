@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 09:02:02 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 13:12:36 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/04 14:05:55 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	draw_ceiling(t_data *data)
 	}
 }
 
-void	put_wall_pixel(t_data *data, int x, int side)
+void	put_wall_pixel(t_data *data, int x, int side, int door)
 {
 	int		wall_height;
 	int		wall_start;
@@ -84,20 +84,22 @@ void	put_wall_pixel(t_data *data, int x, int side)
 	wall_height = HEIGHT / data->ray.wall_dist;
 	wall_start = HEIGHT / 2 - wall_height / 2;
 	wall_end = HEIGHT / 2 + wall_height / 2;
-	if (side == 0)
+	if (side == 0 && !door)
 	{
 		if (data->ray.ray_dirx > 0)
 			texture = &data->texture.east;
 		else
 			texture = &data->texture.west;
 	}
-	else
+	else if (side == 1 && !door)
 	{
 		if (data->ray.ray_diry > 0)
 			texture = &data->texture.south;
 		else
 			texture = &data->texture.north;
 	}
+	else
+		texture = &data->texture.door;
 	if (side == 0)
 		wall_x = data->player.y + data->ray.wall_dist * data->ray.ray_diry;
 	else
@@ -122,26 +124,29 @@ void	put_wall_pixel(t_data *data, int x, int side)
 
 void	dda(t_data *data, int x)
 {
-	int		hit;
-	int		side;
-	int		map[15][15] = {
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+	int	hit;
+	int	side;
+	int	door;
+	char map[15][15] = {
+		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '1', 'P', '1', '1', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '1', '1', '1', '1', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
+	};
 
 	hit = 0;
+	door = 0;
 	while (!hit)
 	{
 		if (data->ray.distx < data->ray.disty)
@@ -156,26 +161,31 @@ void	dda(t_data *data, int x)
 			data->ray.map_y += data->ray.stepy;
 			side = 1;
 		}
-		if (map[data->ray.map_y][data->ray.map_x] == 1)
+		if (map[data->ray.map_y][data->ray.map_x] == '1')
 			hit = 1;
+		else if (map[data->ray.map_y][data->ray.map_x] == 'P')
+		{
+			door = 1;
+			hit = 1;
+		}
 	}
 	if (side == 0)
 	{
-		data->ray.wall_dist = (data->ray.map_x - data->player.x + (1 - data->ray.stepx)
-				/ 2) / data->ray.ray_dirx;
+		data->ray.wall_dist = (data->ray.map_x - data->player.x + (1
+					- data->ray.stepx) / 2) / data->ray.ray_dirx;
 	}
 	else
 	{
-		data->ray.wall_dist = (data->ray.map_y - data->player.y + (1 - data->ray.stepy)
-				/ 2) / data->ray.ray_diry;
+		data->ray.wall_dist = (data->ray.map_y - data->player.y + (1
+					- data->ray.stepy) / 2) / data->ray.ray_diry;
 	}
 	data->ray.wall_dist *= cos(data->ray.ray_angle - data->player.dir);
 	if (data->ray.wall_dist < 0)
 		data->ray.wall_dist = 1e30;
-	put_wall_pixel(data, x, side);
+	put_wall_pixel(data, x, side, door);
 }
 
-void init_dda(t_data *data)
+void	init_dda(t_data *data)
 {
 	if (data->ray.ray_dirx == 0)
 		data->ray.delta_distx = 1e30;
@@ -188,7 +198,8 @@ void init_dda(t_data *data)
 	if (data->ray.ray_dirx < 0)
 	{
 		data->ray.stepx = -1;
-		data->ray.distx = (data->player.x - (int)data->player.x) * data->ray.delta_distx;
+		data->ray.distx = (data->player.x - (int)data->player.x)
+			* data->ray.delta_distx;
 	}
 	else
 	{
@@ -199,7 +210,8 @@ void init_dda(t_data *data)
 	if (data->ray.ray_diry < 0)
 	{
 		data->ray.stepy = -1;
-		data->ray.disty = (data->player.y - (int)data->player.y) * data->ray.delta_disty;
+		data->ray.disty = (data->player.y - (int)data->player.y)
+			* data->ray.delta_disty;
 	}
 	else
 	{
@@ -266,22 +278,23 @@ void	draw_player_map(t_data *data)
 
 void	draw_map(t_data *data)
 {
-	int		map[15][15] = {
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 1}, 
-	{1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, 
-	{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}};
+	char map[15][15] = {
+		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '1', '1', '1', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '1', 'P', '1', '1', '0', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '1', '1', '1', '1', '1', '1', '0', '0', '0', '0', '1', '0', '1'},
+		{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1'},
+		{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
+	};
 	int		screen_x;
 	int		screen_y;
 	double	map_x;
@@ -298,7 +311,7 @@ void	draw_map(t_data *data)
 			if (map_x >= 0 && map_x < data->map.width && map_y >= 0
 				&& map_y < data->map.height)
 			{
-				if (map[(int)map_y][(int)map_x] == 1)
+				if (map[(int)map_y][(int)map_x] == '1')
 					my_mlx_pixel_put(&data->img, screen_x, screen_y,
 						0x00FF0000);
 				else
