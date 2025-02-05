@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/04 11:05:07 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:21:26 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 # define PI 3.14159265358979323846
 # define FOV PI / 3
 
-
 # define SPEED 0.1
 # define ROT_SPEED 0.31 / 2
 # define SENSITIVITY 0.005
@@ -45,7 +44,7 @@
 
 typedef struct s_map
 {
-	int			**map;
+	char		map[15][15];
 	int			width;
 	int			height;
 	int			floor_color;
@@ -87,6 +86,15 @@ typedef struct s_img
 	int			height;
 }				t_img;
 
+typedef struct s_dino
+{
+	int 		state;
+	int 		frame;
+	clock_t		time;
+	t_img		idle[2];
+	t_img		runnin[2];
+}				t_dino;
+
 typedef struct s_texture
 {
 	t_img		north;
@@ -94,6 +102,7 @@ typedef struct s_texture
 	t_img		east;
 	t_img		west;
 	t_img		door;
+	t_dino		dino;
 }				t_texture;
 
 typedef struct s_data
@@ -112,9 +121,11 @@ void			draw_floor(t_data *data);
 void			draw_ceiling(t_data *data);
 void			draw_walls(t_data *data);
 void			draw_map(t_data *data);
+void			draw_dino(t_data *data);
 
 void			move_forward(t_data *data, int keycode);
 void			move_sideways(t_data *data, int keycode);
+void			open_door(t_data *data);
 
 int				init_texture(t_data *data);
 

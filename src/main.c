@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/03 14:45:52 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/05 11:00:01 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,16 @@ int	destroy(t_data *data)
 		mlx_destroy_image(data->mlx, data->texture.south.img);
 	if (data->texture.west.img)
 		mlx_destroy_image(data->mlx, data->texture.west.img);
-	mlx_destroy_image(data->mlx, data->img.img);
+	if (data->texture.dino.idle[0].img)
+		mlx_destroy_image(data->mlx, data->texture.dino.idle[0].img);
+	if (data->texture.dino.idle[1].img)
+		mlx_destroy_image(data->mlx, data->texture.dino.idle[1].img);
+	if (data->texture.dino.runnin[0].img)
+		mlx_destroy_image(data->mlx, data->texture.dino.runnin[0].img);
+	if (data->texture.dino.runnin[1].img)
+		mlx_destroy_image(data->mlx, data->texture.dino.runnin[1].img);
+	if (data->img.img)
+		mlx_destroy_image(data->mlx, data->img.img);
 	mlx_destroy_window(data->mlx, data->win);
 	mlx_destroy_display(data->mlx);
 	free(data->mlx);
@@ -33,12 +42,18 @@ int	move_hook(int keycode, t_data *data)
 {
 	if (keycode == XK_Escape)
 		destroy(data);
-	if (keycode == XK_m)
-		data->map.minimap = !data->map.minimap;
+	if (keycode == XK_e)
+		open_door(data);
 	if (keycode == XK_w || keycode == XK_s)
+	{
+		data->texture.dino.state = 1;
 		move_forward(data, keycode);
+	}
 	if (keycode == XK_a || keycode == XK_d)
+	{
+		data->texture.dino.state = 1;
 		move_sideways(data, keycode);
+	}
 	if (keycode == XK_Left)
 		data->player.dir -= ROT_SPEED;
 	if (keycode == XK_Right)
@@ -64,9 +79,18 @@ int	draw(t_data *data)
 	draw_floor(data);
 	draw_ceiling(data);
 	draw_walls(data);
+	draw_dino(data);
 	if (data->map.minimap)
 		draw_map(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
+	return (0);
+}
+
+int	change_state(int keycode, t_data *data)
+{
+	if (keycode == XK_m)
+		data->map.minimap = !data->map.minimap;
+	data->texture.dino.state = 0;
 	return (0);
 }
 
@@ -75,6 +99,43 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	(void)argv;
+	char tmpmap[15][15] = {{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
+		'1', '1', '1', '1', '1'},
+							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+								'0', '1', '0', '0', '1'},
+							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+								'0', '1', '0', '0', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0',
+								'0', '1', '1', '1', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '0', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '1', '1', 'P', '1', '1', '0', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+								'0', '0', '0', '0', '1'},
+							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+								'0', '0', '0', '0', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '1', '0', '0', '0', '0', '1', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '1', '1', '1', '1', '1', '1', '0', '0',
+								'0', '0', '1', '0', '1'},
+							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
+								'0', '0', '0', '0', '1'},
+							{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
+								'1', '1', '1', '1', '1'}};
+	for (int i = 0; i < 15; i++)
+	{
+		for (int j = 0; j < 15; j++)
+		{
+			data.map.map[i][j] = tmpmap[i][j];
+		}
+	}
 	data.player.x = 4;
 	data.player.y = 4;
 	data.player.dir = WEST;
@@ -83,6 +144,9 @@ int	main(int argc, char **argv)
 	data.map.height = 15;
 	data.map.floor_color = 0x00FF0FF0;
 	data.map.ceiling_color = 0x00FFFF0F;
+	data.texture.dino.state = 0;
+	data.texture.dino.frame = 0;
+	data.texture.dino.time = clock();
 	if (argc == 2)
 	{
 		data.mlx = mlx_init();
@@ -95,6 +159,7 @@ int	main(int argc, char **argv)
 		mlx_hook(data.win, 17, (1L << 17), destroy, &data);
 		mlx_hook(data.win, 2, (1L << 0), move_hook, &data);
 		mlx_hook(data.win, 6, (1L << 6), mouse_hook, &data);
+		mlx_hook(data.win, 3, (1L << 1), change_state, &data);
 		mlx_loop_hook(data.mlx, draw, &data);
 		mlx_mouse_hide(data.mlx, data.win);
 		mlx_loop(data.mlx);

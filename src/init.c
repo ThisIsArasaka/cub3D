@@ -6,11 +6,48 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/04 12:00:07 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/05 10:17:24 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
+
+void	init_texture_img_dino(t_data *data)
+{
+	data->texture.dino.idle[0].addr = mlx_get_data_addr(data->texture.dino.idle[0].img,
+			&data->texture.dino.idle[0].bpp, &data->texture.dino.idle[0].line_len,
+			&data->texture.dino.idle[0].endian);
+	data->texture.dino.idle[1].addr = mlx_get_data_addr(data->texture.dino.idle[1].img,
+			&data->texture.dino.idle[1].bpp, &data->texture.dino.idle[1].line_len,
+			&data->texture.dino.idle[1].endian);
+	data->texture.dino.runnin[0].addr = mlx_get_data_addr(data->texture.dino.runnin[0].img,
+			&data->texture.dino.runnin[0].bpp, &data->texture.dino.runnin[0].line_len,
+			&data->texture.dino.runnin[0].endian);
+	data->texture.dino.runnin[1].addr = mlx_get_data_addr(data->texture.dino.runnin[1].img,
+			&data->texture.dino.runnin[1].bpp, &data->texture.dino.runnin[1].line_len,
+			&data->texture.dino.runnin[1].endian);
+}
+
+int init_dino(t_data *data)
+{
+	data->texture.dino.idle[0].img = mlx_xpm_file_to_image(data->mlx,
+			"sprite/DINO-IDLE-1.xpm", &data->texture.dino.idle[0].width,
+			&data->texture.dino.idle[0].height);
+	data->texture.dino.idle[1].img = mlx_xpm_file_to_image(data->mlx,
+			"sprite/DINO-IDLE-2.xpm", &data->texture.dino.idle[1].width,
+			&data->texture.dino.idle[1].height);
+	data->texture.dino.runnin[0].img = mlx_xpm_file_to_image(data->mlx,
+			"sprite/DINO-RUNNING-1.xpm", &data->texture.dino.runnin[0].width,
+			&data->texture.dino.runnin[0].height);
+	data->texture.dino.runnin[1].img = mlx_xpm_file_to_image(data->mlx,
+			"sprite/DINO-RUNNING-2.xpm", &data->texture.dino.runnin[1].width,
+			&data->texture.dino.runnin[1].height);
+	if (!data->texture.dino.idle[0].img || !data->texture.dino.idle[1].img
+		|| !data->texture.dino.runnin[0].img || !data->texture.dino.runnin[1].img)
+		return (0);
+	init_texture_img_dino(data);
+	return (1);
+}
 
 void	init_texture_img(t_data *data)
 {
@@ -52,5 +89,7 @@ int	init_texture(t_data *data)
 		|| !data->texture.east.img || !data->texture.west.img)
 		return (0);
 	init_texture_img(data);
+	if (!init_dino(data))
+		return (0);
 	return (1);
 }
