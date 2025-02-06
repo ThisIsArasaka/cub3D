@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/05 10:21:26 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:03:06 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,15 @@ typedef struct s_ray
 	double		delta_distx;
 	double		delta_disty;
 	double		wall_dist;
+	int		wall_height;
+	int		wall_start;
+	int		wall_end;
+	int		color;
+	double	wall_x;
+	int		texture_x;
+	int		texture_y;
+	double	step;
+	double	tex_pos;
 }				t_ray;
 
 typedef struct s_player
@@ -116,17 +125,26 @@ typedef struct s_data
 	t_texture	texture;
 }				t_data;
 
-void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 void			draw_floor(t_data *data);
 void			draw_ceiling(t_data *data);
 void			draw_walls(t_data *data);
 void			draw_map(t_data *data);
 void			draw_dino(t_data *data);
 
+void			dda(t_data *data, int x);
+void			init_dda(t_data *data);
+void			dda_loop(t_data *data, int *side, int *door);
+
+void 			put_wall_pixel(t_data *data, int x, int side, int door);
+
 void			move_forward(t_data *data, int keycode);
 void			move_sideways(t_data *data, int keycode);
 void			open_door(t_data *data);
 
 int				init_texture(t_data *data);
+
+int				create_trgb(int t, int r, int g, int b);
+int				get_pixel_color(t_img *img, int x, int y);
+void			my_mlx_pixel_put(t_img *img, int x, int y, int color);
 
 #endif

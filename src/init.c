@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/05 10:17:24 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/06 13:05:10 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,29 @@
 
 void	init_texture_img_dino(t_data *data)
 {
-	data->texture.dino.idle[0].addr = mlx_get_data_addr(data->texture.dino.idle[0].img,
-			&data->texture.dino.idle[0].bpp, &data->texture.dino.idle[0].line_len,
+	data->texture.dino.idle[0].addr = mlx_get_data_addr
+		(data->texture.dino.idle[0].img,
+			&data->texture.dino.idle[0].bpp,
+			&data->texture.dino.idle[0].line_len,
 			&data->texture.dino.idle[0].endian);
-	data->texture.dino.idle[1].addr = mlx_get_data_addr(data->texture.dino.idle[1].img,
-			&data->texture.dino.idle[1].bpp, &data->texture.dino.idle[1].line_len,
+	data->texture.dino.idle[1].addr = mlx_get_data_addr
+		(data->texture.dino.idle[1].img,
+			&data->texture.dino.idle[1].bpp,
+			&data->texture.dino.idle[1].line_len,
 			&data->texture.dino.idle[1].endian);
-	data->texture.dino.runnin[0].addr = mlx_get_data_addr(data->texture.dino.runnin[0].img,
-			&data->texture.dino.runnin[0].bpp, &data->texture.dino.runnin[0].line_len,
+	data->texture.dino.runnin[0].addr = mlx_get_data_addr
+		(data->texture.dino.runnin[0].img,
+			&data->texture.dino.runnin[0].bpp,
+			&data->texture.dino.runnin[0].line_len,
 			&data->texture.dino.runnin[0].endian);
-	data->texture.dino.runnin[1].addr = mlx_get_data_addr(data->texture.dino.runnin[1].img,
-			&data->texture.dino.runnin[1].bpp, &data->texture.dino.runnin[1].line_len,
+	data->texture.dino.runnin[1].addr = mlx_get_data_addr
+		(data->texture.dino.runnin[1].img,
+			&data->texture.dino.runnin[1].bpp,
+			&data->texture.dino.runnin[1].line_len,
 			&data->texture.dino.runnin[1].endian);
 }
 
-int init_dino(t_data *data)
+int	init_dino(t_data *data)
 {
 	data->texture.dino.idle[0].img = mlx_xpm_file_to_image(data->mlx,
 			"sprite/DINO-IDLE-1.xpm", &data->texture.dino.idle[0].width,
@@ -43,7 +51,8 @@ int init_dino(t_data *data)
 			"sprite/DINO-RUNNING-2.xpm", &data->texture.dino.runnin[1].width,
 			&data->texture.dino.runnin[1].height);
 	if (!data->texture.dino.idle[0].img || !data->texture.dino.idle[1].img
-		|| !data->texture.dino.runnin[0].img || !data->texture.dino.runnin[1].img)
+		|| !data->texture.dino.runnin[0].img
+		|| !data->texture.dino.runnin[1].img)
 		return (0);
 	init_texture_img_dino(data);
 	return (1);
@@ -82,9 +91,8 @@ int	init_texture(t_data *data)
 	data->texture.west.img = mlx_xpm_file_to_image(data->mlx,
 			"sprite/WEST_WALL.xpm", &data->texture.west.width,
 			&data->texture.west.height);
-	data->texture.door.img = mlx_xpm_file_to_image(data->mlx,
-			"sprite/DOOR.xpm", &data->texture.door.width,
-			&data->texture.door.height);
+	data->texture.door.img = mlx_xpm_file_to_image(data->mlx, "sprite/DOOR.xpm",
+			&data->texture.door.width, &data->texture.door.height);
 	if (!data->texture.north.img || !data->texture.south.img
 		|| !data->texture.east.img || !data->texture.west.img)
 		return (0);

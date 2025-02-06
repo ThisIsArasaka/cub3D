@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/05 11:00:01 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/06 14:25:30 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	destroy(t_data *data)
 {
+	mlx_mouse_show(data->mlx, data->win);
 	if (data->texture.east.img)
 		mlx_destroy_image(data->mlx, data->texture.east.img);
 	if (data->texture.north.img)
@@ -22,6 +23,8 @@ int	destroy(t_data *data)
 		mlx_destroy_image(data->mlx, data->texture.south.img);
 	if (data->texture.west.img)
 		mlx_destroy_image(data->mlx, data->texture.west.img);
+	if (data->texture.door.img)
+		mlx_destroy_image(data->mlx, data->texture.door.img);
 	if (data->texture.dino.idle[0].img)
 		mlx_destroy_image(data->mlx, data->texture.dino.idle[0].img);
 	if (data->texture.dino.idle[1].img)
@@ -86,9 +89,9 @@ int	draw(t_data *data)
 	return (0);
 }
 
-int	change_state(int keycode, t_data *data)
+int	key_release(int keycode, t_data *data)
 {
-	if (keycode == XK_m)
+	if (keycode == XK_Tab)
 		data->map.minimap = !data->map.minimap;
 	data->texture.dino.state = 0;
 	return (0);
@@ -99,8 +102,7 @@ int	main(int argc, char **argv)
 	t_data	data;
 
 	(void)argv;
-	char tmpmap[15][15] = {{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1',
-		'1', '1', '1', '1', '1'},
+	char tmpmap[15][15] = {{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1'},
 							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
 								'0', '1', '0', '0', '1'},
 							{'1', '0', '0', '0', '0', '0', '0', '0', '0', '0',
@@ -159,7 +161,7 @@ int	main(int argc, char **argv)
 		mlx_hook(data.win, 17, (1L << 17), destroy, &data);
 		mlx_hook(data.win, 2, (1L << 0), move_hook, &data);
 		mlx_hook(data.win, 6, (1L << 6), mouse_hook, &data);
-		mlx_hook(data.win, 3, (1L << 1), change_state, &data);
+		mlx_hook(data.win, 3, (1L << 1), key_release, &data);
 		mlx_loop_hook(data.mlx, draw, &data);
 		mlx_mouse_hide(data.mlx, data.win);
 		mlx_loop(data.mlx);
