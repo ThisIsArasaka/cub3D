@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/06 13:03:06 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:05:18 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@
 # define EAST 0
 # define WEST PI
 
+typedef struct s_minimap
+{
+	int is_active;
+	int arrow_x;
+	int arrow_y;
+	double angle;
+}				t_minimap;
+
 typedef struct s_map
 {
 	char		map[15][15];
@@ -66,15 +74,15 @@ typedef struct s_ray
 	double		delta_distx;
 	double		delta_disty;
 	double		wall_dist;
-	int		wall_height;
-	int		wall_start;
-	int		wall_end;
-	int		color;
-	double	wall_x;
-	int		texture_x;
-	int		texture_y;
-	double	step;
-	double	tex_pos;
+	int			wall_height;
+	int			wall_start;
+	int			wall_end;
+	int			color;
+	double		wall_x;
+	int			texture_x;
+	int			texture_y;
+	double		step;
+	double		tex_pos;
 }				t_ray;
 
 typedef struct s_player
@@ -97,8 +105,8 @@ typedef struct s_img
 
 typedef struct s_dino
 {
-	int 		state;
-	int 		frame;
+	int			state;
+	int			frame;
 	clock_t		time;
 	t_img		idle[2];
 	t_img		runnin[2];
@@ -135,7 +143,7 @@ void			dda(t_data *data, int x);
 void			init_dda(t_data *data);
 void			dda_loop(t_data *data, int *side, int *door);
 
-void 			put_wall_pixel(t_data *data, int x, int side, int door);
+void			put_wall_pixel(t_data *data, int x, int side, int door);
 
 void			move_forward(t_data *data, int keycode);
 void			move_sideways(t_data *data, int keycode);

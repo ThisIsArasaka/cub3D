@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:17:27 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/07 10:48:43 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/11 14:07:37 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,15 @@ void	draw_front_arrow(t_data *data)
 	int		i;
 
 	i = 1;
-	while (i < 10)
+	while (i < 15)
 	{
 		angle = data->player.dir + (PI * 5) / 6;
-		arrow_x = (75 + cos(data->player.dir) * 5) + cos(angle) * i;
-		arrow_y = (75 + sin(data->player.dir) * 5) + sin(angle) * i;
+		arrow_x = (75 + cos(data->player.dir) * 8) + cos(angle) * i;
+		arrow_y = (75 + sin(data->player.dir) * 8) + sin(angle) * i;
 		my_mlx_pixel_put(&data->img, arrow_x, arrow_y, 0x00FF0000);
 		angle = data->player.dir - (PI * 5) / 6;
-		arrow_x = (75 + cos(data->player.dir) * 5) + cos(angle) * i;
-		arrow_y = (75 + sin(data->player.dir) * 5) + sin(angle) * i;
+		arrow_x = (75 + cos(data->player.dir) * 8) + cos(angle) * i;
+		arrow_y = (75 + sin(data->player.dir) * 8) + sin(angle) * i;
 		my_mlx_pixel_put(&data->img, arrow_x, arrow_y, 0x00FF0000);
 		i++;
 	}
@@ -43,7 +43,7 @@ void	draw_player_map(t_data *data)
 
 	draw_front_arrow(data);
 	i = 1;
-	while (i < 5)
+	while (i < 8)
 	{
 		angle = data->player.dir + (PI * 2) / 3;
 		arrow_x = 75 + cos(angle) * i;
