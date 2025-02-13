@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/11 14:05:18 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:12:40 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define HEIGHT 540
 # define WIDTH 960
 
-# define MINIMAP_SIZE 10
+# define MINIMAP_SIZE 15
 
 # define PI 3.14159265358979323846
 # define FOV PI / 3
@@ -41,6 +41,11 @@
 # define NORTH 3 * PI / 2
 # define EAST 0
 # define WEST PI
+
+# define MINIMAP_COLOR_WALL 0x0028B463
+# define MINIMAP_COLOR_FLOOR 0x00C0392B 
+# define MINIMAP_COLOR_PLAYER 0x00273746 
+# define MINIMAP_COLOR_DOOR 0x00FFD700
 
 typedef struct s_minimap
 {
@@ -74,6 +79,7 @@ typedef struct s_ray
 	double		delta_distx;
 	double		delta_disty;
 	double		wall_dist;
+	double		wall_dist_corrected;
 	int			wall_height;
 	int			wall_start;
 	int			wall_end;

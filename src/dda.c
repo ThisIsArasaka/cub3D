@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:57:39 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/06 14:25:33 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:13:01 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ void	dda(t_data *data, int x)
 		data->ray.wall_dist = (data->ray.map_y - data->player.y + (1
 					- data->ray.stepy) / 2) / data->ray.ray_diry;
 	}
-	data->ray.wall_dist *= cos(data->ray.ray_angle - data->player.dir);
+	data->ray.wall_dist_corrected = data->ray.wall_dist
+		* cos(data->ray.ray_angle - data->player.dir);
 	if (data->ray.wall_dist < 0)
 		data->ray.wall_dist = 1e30;
 	put_wall_pixel(data, x, side, door);
