@@ -1,51 +1,83 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/01/07 10:10:04 by olardeux          #+#    #+#              #
-#    Updated: 2025/02/06 14:17:23 by olardeux         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+#---------------COLORS---------------#
+BLACK=	$(shell tput -Txterm setaf 0)
+RED= 	$(shell tput -Txterm setaf 1)
+GREEN= 	$(shell tput -Txterm setaf 2)
+WHITE= 	$(shell tput -Txterm setaf 7)
+YELLOW=	$(shell tput -Txterm setaf 3)
+BLUE=	$(shell tput -Txterm setaf 6)
+PURPLE=	$(shell tput -Txterm setaf 5)
+END= 	$(shell tput -Txterm sgr0)
+BOLD=   \033[1m
+#---------------COLORS---------------#
+
+CC = cc
+
+FLAG = -Wall -Werror -Wextra -g3
+
+SUPFLAG = 
+
+INCLUDE = -I . -I libft/
 
 NAME = cub3D
-CC = clang
-CFLAGS = -Wall -Wextra -Werror -g3
-MLXFLAGS = -lXext -lX11 -lm -lz
-MLX_DIR = ./mlx
-MLX = $(MLX_DIR)/libmlx.a
-SRC_DIR = ./src
-OBJ_DIR = ./obj
-INC_DIR = ./inc
-SRC_FILE = main.c draw.c move.c init.c dda.c pixel.c wall_utils.c minimap.c
-SRC = $(addprefix $(SRC_DIR)/, $(SRC_FILE))
-OBJ = $(addprefix $(OBJ_DIR)/, $(SRC_FILE:.c=.o))
 
-all: $(NAME)
+SOURCES = main.c \
+init.c \
+destroyer.c \
+utils1.c \
+utils2.c \
+parsing.c \
+map_check.c \
+verify.c \
 
-$(NAME): $(MLX) $(OBJ)
-	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(MLX_DIR) $(OBJ) $(MLX) $(MLXFLAGS) -o $(NAME)
-	@echo "\033[32m$(NAME) is compiled\033[0m"
+OBJ = $(SOURCES:%.c=obj/%.o)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	@mkdir -p $(OBJ_DIR)
-	@$(CC) $(CFLAGS) -I $(INC_DIR) -I $(MLX_DIR) -c $< -o $@
-	@echo "\033[33m$@ is compiled\033[0m"
+DEP = $(OBJ:.o=.d)
 
-$(MLX):
-	@make -C $(MLX_DIR)
+OBJPATH = obj
 
-clean:
-	@rm -rf $(OBJ_DIR)
-	@echo "\033[31mObject files are removed\033[0m"
+BAR_SIZE = 50
 
-fclean: clean
-	@rm -f $(NAME)
-	@echo "\033[31m$(NAME) is removed\033[0m"
+TOTAL_FILES		:= $(words $(SOURCES))
 
-re: fclean all
-	@echo "\033[32m$(NAME) is recompiled\033[0m"
+COMPILED_FILES	:= 0
 
-.PHONY: all clean fclean re
+all : $(NAME)
+	@echo "$(BOLD)$(GREEN)Compilation Done.\n$(END)"
+#	@sleep 1
+#	 clear
+
+$(NAME) : $(OBJ)
+	@make bonus -sC lib/libft/
+	@mv lib/libft/libft.a obj/lib.a
+	@make fclean -sC lib/libft
+	@echo "$(BOLD)$(GREEN)Lib compiled.\n$(END)"
+	@$(CC) $(OBJ) -o $(NAME) obj/lib.a $(SUPFLAG)
+
+-include $(DEP)
+
+$(OBJPATH)/%.o : %.c
+	@mkdir -p $(dir $@)
+	@$(CC) $(FLAG) -c -MMD -MP $< -o $@ $(INCLUDE) $(SUPFLAG)
+	@$(eval COMPILED_FILES := $(shell echo $$(($(COMPILED_FILES)+1))))
+	@echo -n ""
+	@for i in `seq 1 $(shell echo "$$(($(COMPILED_FILES)*$(BAR_SIZE)/$(TOTAL_FILES)))")`; do \
+		echo -n "$(GREEN)▰$(END)" ; \
+	done
+	@for i in `seq 1 $(shell echo "$$(($(BAR_SIZE)-$(COMPILED_FILES)*$(BAR_SIZE)/$(TOTAL_FILES)))")`; do \
+		echo -n "▱" ; \
+	done
+	@echo -n " [$(shell echo "scale=2; $(COMPILED_FILES)/$(TOTAL_FILES) * 100" | bc)%] "
+	@printf "\e[0K\r"
+
+clean :
+	@make clean -sC lib/libft/
+	@rm -r $(OBJPATH)
+
+fclean : clean
+	@make fclean -sC lib/libft/
+	@rm -f $(NAME) obj/lib.a
+	@echo "$(GREEN)Cleaning Done.$(END)"
+
+re : fclean all
+
+.PHONY : re fclean clean all

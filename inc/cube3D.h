@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3D.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 09:12:40 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/13 10:38:02 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <X11/keysym.h>
 # include <fcntl.h>
 # include <math.h>
-# include <mlx.h>
+# include <lib/mlx/mlx.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
