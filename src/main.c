@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/11 13:16:30 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/12 08:30:03 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,8 @@ int	main(int argc, char **argv)
 	data.map.minimap = 0;
 	data.map.width = 15;
 	data.map.height = 15;
-	data.map.floor_color = 0x00FF0FF0;
-	data.map.ceiling_color = 0x00FFFF0F;
+	data.map.floor_color = 0x007B241C;
+	data.map.ceiling_color = 0x034495E;
 	data.texture.dino.state = 0;
 	data.texture.dino.frame = 0;
 	data.texture.dino.time = clock();

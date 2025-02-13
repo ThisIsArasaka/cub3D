@@ -6,7 +6,7 @@
 /*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:02:11 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/06 14:25:32 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/13 09:13:27 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	put_wall_pixel(t_data *data, int x, int side, int door)
 	t_img	*texture;
 
 	texture = set_texture(data, side, door);
-	data->ray.wall_height = HEIGHT / data->ray.wall_dist;
+	data->ray.wall_height = HEIGHT / data->ray.wall_dist_corrected;
 	data->ray.wall_start = HEIGHT / 2 - data->ray.wall_height / 2;
 	data->ray.wall_end = HEIGHT / 2 + data->ray.wall_height / 2;
 	if (side == 0)
