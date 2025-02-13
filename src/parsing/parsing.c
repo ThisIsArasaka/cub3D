@@ -5,39 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/04 16:12:59 by michen            #+#    #+#             */
-/*   Updated: 2025/02/04 16:14:53 by michen           ###   ########.fr       */
+/*   Created: 2025/01/30 11:23:55 by michen            #+#    #+#             */
+/*   Updated: 2025/02/13 11:51:16 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "inc/parsing.h"
 
-int		valid_extension(char *str)
-{
-	int		i;
+// int	main(int ac, char **av)
+// {
+// 	t_game game;
 
-	i = 0;
-	if (!str)
-		return (0);
-	while (str[i] && str[i] != '.')
-		i++;
-	if (ft_strncmp(str + i, ".cub", 5))
-		return (0);
-	return (1);
-}
+// 	if (!valid_args(ac, av)) // (1) && (2)
+// 		return (0);
+// 	if (valid_content(av[1], &game) && valid_textures(&game)) // (3)
+// 	{
+// 		get_player_pos(&game, game.map->map);
+// 		printf("Game start\n");
+// 	}
+// 	// printf("%c\n", game.player->direction);
+// 	// if (!valid_map_file(av[1])) // (4)
+// 		// return (0);
 
-int		valid_args(int ac, char **av)
-{
-	if (ac != 2)
-	{
-		printf("Invalid number of args\n");
-		printf("Usage : ./cub3d <map_name.cub>\n");
-		return (0);
-	}
-	if (!valid_extension(av[1]))
-	{
-		printf("Invalid extension, needed file : <map.cub>\n");
-		return (0);
-	}
-	return (1);
-}
+// 	// init_game(game, av);
+// }

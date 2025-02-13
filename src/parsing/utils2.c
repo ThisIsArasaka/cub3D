@@ -6,26 +6,25 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:08:01 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 10:40:22 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/13 12:07:05 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "parsing.h"
 
 void	free_config(t_game *g)
 {
 	free(g->player);
 	free(g->map);
 	free(g->mlx);
-	free(g->textures->ceiling);
-	free(g->textures->floor);
-	free(g->textures);
+	free(g->textures.ceiling);
+	free(g->textures.floor);
 }
 
 int		init_g2(t_game *g)
 {
-	if (!g->player || !g->map || !g->mlx || !g->textures
-		|| !g->textures->ceiling || !g->textures->floor)
+	if (!g->player || !g->map || !g->mlx/* || !g->textures*/
+		|| !g->textures.ceiling || !g->textures.floor)
 		{
 			free_config(g);
 			return (0);
@@ -38,11 +37,8 @@ int		init_g(t_game *g)
 	g->player = ft_calloc(sizeof(t_player), 1);
 	g->map = ft_calloc(sizeof(t_map), 1);
 	g->mlx = ft_calloc(sizeof(t_mlx), 1);
-	g->textures = ft_calloc(sizeof(t_textures), 1);
-	if (!g->textures)
-		return (free_config(g), 0);
-	g->textures->ceiling = ft_calloc(sizeof(t_color), 1);
-	g->textures->floor = ft_calloc(sizeof(t_color), 1);
+	g->textures.ceiling = ft_calloc(sizeof(t_color), 1);
+	g->textures.floor = ft_calloc(sizeof(t_color), 1);
 	if (!init_g2(g))
 		return (0);
 	g->player->direction = 0;
@@ -51,18 +47,18 @@ int		init_g(t_game *g)
 	g->map->map = NULL;
 	g->map->max_height = 0;
 	g->map->max_width = 0;
-	g->mlx->ptr = NULL;
+	g->mlx->mlx = NULL;
 	g->mlx->windows = NULL;
-	g->textures->ceiling->red = 0;
-	g->textures->ceiling->green = 0;
-	g->textures->ceiling->blue = 0;
-	g->textures->floor->red = 0;
-	g->textures->floor->green = 0;
-	g->textures->floor->blue = 0;
-	g->textures->north_wall = NULL;
-	g->textures->south_wall = NULL;
-	g->textures->west_wall = NULL;
-	g->textures->east_wall = NULL;
+	g->textures.ceiling->red = 0;
+	g->textures.ceiling->green = 0;
+	g->textures.ceiling->blue = 0;
+	g->textures.floor->red = 0;
+	g->textures.floor->green = 0;
+	g->textures.floor->blue = 0;
+	g->textures.north_wall = NULL;
+	g->textures.south_wall = NULL;
+	g->textures.west_wall = NULL;
+	g->textures.east_wall = NULL;
 	return (1);
 }
 

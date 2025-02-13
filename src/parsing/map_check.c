@@ -6,11 +6,11 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:18:19 by michen            #+#    #+#             */
-/*   Updated: 2025/02/12 15:46:28 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:51:45 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "parsing.h"
 
 // int		valid_map_file(char *map)
 // {

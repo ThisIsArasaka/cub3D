@@ -6,11 +6,11 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:27:57 by michen            #+#    #+#             */
-/*   Updated: 2025/02/11 14:05:30 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/13 12:02:54 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "inc/parsing.h"
 
 // void	free_game(t_textures *assets, t_game *game)
 // {

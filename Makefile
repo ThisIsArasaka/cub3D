@@ -14,20 +14,29 @@ CC = cc
 
 FLAG = -Wall -Werror -Wextra -g3
 
-SUPFLAG = 
+SUPFLAG = -lXext -lX11 -lm -lz
 
-INCLUDE = -I . -I libft/
+INCLUDE = -I . -I lib/libft/ -I ./inc
 
 NAME = cub3D
 
 SOURCES = main.c \
-init.c \
 destroyer.c \
-utils1.c \
-utils2.c \
-parsing.c \
-map_check.c \
-verify.c \
+src/parsing/init.c \
+src/parsing/map_check.c \
+src/parsing/parsing.c \
+src/parsing/utils1.c \
+src/parsing/utils2.c \
+src/parsing/utils3.c \
+src/parsing/verify.c \
+src/raycasting/dda.c \
+src/raycasting/draw.c \
+src/raycasting/init.c \
+src/raycasting/minimap.c \
+src/raycasting/move.c \
+src/raycasting/pixel.c \
+src/raycasting/wall_utils.c \
+
 
 OBJ = $(SOURCES:%.c=obj/%.o)
 
@@ -43,21 +52,22 @@ COMPILED_FILES	:= 0
 
 all : $(NAME)
 	@echo "$(BOLD)$(GREEN)Compilation Done.\n$(END)"
-#	@sleep 1
-#	 clear
 
-$(NAME) : $(OBJ)
+$(NAME) : compile $(OBJ) 
 	@make bonus -sC lib/libft/
 	@mv lib/libft/libft.a obj/lib.a
 	@make fclean -sC lib/libft
 	@echo "$(BOLD)$(GREEN)Lib compiled.\n$(END)"
-	@$(CC) $(OBJ) -o $(NAME) obj/lib.a $(SUPFLAG)
+	@$(CC) $(OBJ) $(SUPFLAG) -o $(NAME) obj/lib.a  ./lib/mlx/libmlx.a
 
 -include $(DEP)
 
+compile : 
+	@make -sC ./lib/mlx/
+
 $(OBJPATH)/%.o : %.c
 	@mkdir -p $(dir $@)
-	@$(CC) $(FLAG) -c -MMD -MP $< -o $@ $(INCLUDE) $(SUPFLAG)
+	@$(CC) $(FLAG) -c -MMD -MP $< -o $@ $(INCLUDE)
 	@$(eval COMPILED_FILES := $(shell echo $$(($(COMPILED_FILES)+1))))
 	@echo -n ""
 	@for i in `seq 1 $(shell echo "$$(($(COMPILED_FILES)*$(BAR_SIZE)/$(TOTAL_FILES)))")`; do \
@@ -71,6 +81,7 @@ $(OBJPATH)/%.o : %.c
 
 clean :
 	@make clean -sC lib/libft/
+	@make clean -sC lib/mlx/
 	@rm -r $(OBJPATH)
 
 fclean : clean

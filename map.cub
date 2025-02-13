@@ -1,12 +1,9 @@
-SO				rock/textures
-NO		salut	
-
-
-
-EA T bonjour
-F        251,121,23
-WE slkdjasldkj
-C 29,59,128
+NO	sprite/NORTH_WALL.xpm
+SO	sprite/SOUTH_WALL.xpm
+EA	sprite/EAST_WALL.xpm
+WE	sprite/WEST_WALL.xpm
+F	251,121,23
+C	29,59,128
 
 
 

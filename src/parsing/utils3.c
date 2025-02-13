@@ -1,16 +1,46 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/30 11:23:55 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 10:37:20 by michen           ###   ########.fr       */
+/*   Created: 2025/02/04 16:12:59 by michen            #+#    #+#             */
+/*   Updated: 2025/02/13 11:51:45 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "inc/parsing.h"
+#include "parsing.h"
+
+int		valid_extension(char *str)
+{
+	int		i;
+
+	i = 0;
+	if (!str)
+		return (0);
+	while (str[i] && str[i] != '.')
+		i++;
+	if (ft_strncmp(str + i, ".cub", 5))
+		return (0);
+	return (1);
+}
+
+int		valid_args(int ac, char **av)
+{
+	if (ac != 2)
+	{
+		printf("Invalid number of args\n");
+		printf("Usage : ./cub3d <map_name.cub>\n");
+		return (0);
+	}
+	if (!valid_extension(av[1]))
+	{
+		printf("Invalid extension, needed file : <map.cub>\n");
+		return (0);
+	}
+	return (1);
+}
 
 void	get_player_pos(t_game *g, char **map)
 {
@@ -35,21 +65,4 @@ void	get_player_pos(t_game *g, char **map)
 		x = 0;
 		y++;
 	}
-}
-int	main(int ac, char **av)
-{
-	t_game game;
-
-	if (!valid_args(ac, av)) // (1) && (2)
-		return (0);
-	if (valid_content(av[1], &game) && valid_textures(&game)) // (3)
-	{
-		get_player_pos(&game, game.map->map);
-		printf("Game start\n");
-	}
-	// printf("%c\n", game.player->direction);
-	// if (!valid_map_file(av[1])) // (4)
-		// return (0);
-
-	// init_game(game, av);
 }

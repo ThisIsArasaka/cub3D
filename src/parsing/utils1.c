@@ -6,11 +6,11 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:27:21 by michen            #+#    #+#             */
-/*   Updated: 2025/02/10 11:53:01 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/13 11:51:47 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "cub3d.h"
+#include "parsing.h"
 
 int		list_len(t_list *map)
 {
