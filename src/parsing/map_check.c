@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:18:19 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 11:51:45 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:20:38 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ int		closed_map(char **map)
 				if (!near_void(map, x, y))
 					x++;
 				else
-					return (printf("Error : Map not closed\n"), 0);
+					return (printf("Error\nMap not closed\n"), 0);
 			}
 			else
 				x++;
@@ -140,7 +140,7 @@ int		closed_map(char **map)
 		y++;
 	}
 	if (find_zero(map[y - 1]))
-		return (printf("Error : Map not closed\n"), 0);
+		return (printf("Error\nMap not closed\n"), 0);
 	return (1);
 }
 
@@ -148,7 +148,7 @@ int		forbidden_char(char c)
 {
 	if (is_player(c) || c == ' ' || c == 'P' || c == '1' || c == '0')
 		return (0);
-	printf("Error, Forbidden char found\n");
+	printf("Error\nForbidden char found\n");
 	return (1);
 }
 
@@ -183,7 +183,7 @@ int		valid_map(t_game *g)
 	int	y;
 
 	if (!g->map->map)
-		return (printf("Error, map is missing\n"), 0);
+		return (printf("Error\nmap is missing\n"), 0);
 	x = 0;
 	y = 0;
 	while (g->map->map[y])
@@ -200,7 +200,7 @@ int		valid_map(t_game *g)
 	g->map->max_height = y;
 	g->map->max_width = ft_strlen(g->map->map[0]);
 	if (!closed_map(g->map->map) || !player_exist(g->map->map))
-		return (printf("Error, map invalid\n"), 0);
+		return (printf("Error\nmap invalid\n"), 0);
 	return (1);
 }
 
@@ -217,13 +217,15 @@ void	map(t_game *g, t_gnlassets *gnl, char *str)
 		return ;
 	if (str && str[0] == '\n')
 	{
+		free(str);
 		line = get_next_line(gnl->fd);
 		while (line && !ft_strncmp("\n\0", line, 2))
-			line = get_next_line(gnl->fd);
-		if (line)
 		{
-			map = ft_lstnew(format(line));
+			free(line);
+			line = get_next_line(gnl->fd);
 		}
+		if (line)
+			map = ft_lstnew(format(line));
 	}
 	else
 		map = ft_lstnew(format(str));

@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/14 10:56:44 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/14 13:07:55 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
+
+void init_to_null(t_game *game)
+{
+	game->textures.east.img = NULL;
+	game->textures.north.img = NULL;
+	game->textures.west.img = NULL;
+	game->textures.south.img = NULL;
+	
+	game->textures.dino.idle[0].img = NULL;
+	game->textures.dino.idle[1].img = NULL;
+	game->textures.dino.runnin[0].img = NULL;
+	game->textures.dino.runnin[1].img = NULL;
+
+	
+	game->textures.door.img = NULL;
+}
 
 void	init_texture_img_dino(t_game *data)
 {
@@ -79,6 +95,7 @@ void	init_texture_img(t_game *data)
 
 int	init_texture(t_game *data)
 {
+	init_to_null(data);
 	data->textures.north.img = mlx_xpm_file_to_image(data->mlx->mlx,
 			data->textures.north_wall, &data->textures.north.width,
 			&data->textures.north.height);
@@ -98,8 +115,8 @@ int	init_texture(t_game *data)
 		|| !data->textures.east.img || !data->textures.west.img
 		|| !data->textures.door.img)
 		return (0);
-	init_texture_img(data);
 	if (!init_dino(data))
 		return (0);
+	init_texture_img(data);
 	return (1);
 }

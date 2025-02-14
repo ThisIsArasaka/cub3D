@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:08:01 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 12:07:05 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:39:27 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,12 @@ int		init_g(t_game *g)
 	g->map->max_width = 0;
 	g->mlx->mlx = NULL;
 	g->mlx->windows = NULL;
-	g->textures.ceiling->red = 0;
-	g->textures.ceiling->green = 0;
-	g->textures.ceiling->blue = 0;
-	g->textures.floor->red = 0;
-	g->textures.floor->green = 0;
-	g->textures.floor->blue = 0;
+	g->textures.ceiling->red = -1;
+	g->textures.ceiling->green = -1;
+	g->textures.ceiling->blue = -1;
+	g->textures.floor->red = -1;
+	g->textures.floor->green = -1;
+	g->textures.floor->blue = -1;
 	g->textures.north_wall = NULL;
 	g->textures.south_wall = NULL;
 	g->textures.west_wall = NULL;

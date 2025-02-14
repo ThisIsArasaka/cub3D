@@ -3,49 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/14 11:23:13 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:52:14 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "inc/cube3D.h"
 #include "inc/parsing.h"
 
-int	destroy(t_game *data)
-{
-	mlx_mouse_show(data->mlx->mlx, data->mlx->windows);
-	if (data->textures.east.img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.east.img);
-	if (data->textures.north.img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.north.img);
-	if (data->textures.south.img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.south.img);
-	if (data->textures.west.img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.west.img);
-	if (data->textures.door.img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.door.img);
-	if (data->textures.dino.idle[0].img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.dino.idle[0].img);
-	if (data->textures.dino.idle[1].img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.dino.idle[1].img);
-	if (data->textures.dino.runnin[0].img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.dino.runnin[0].img);
-	if (data->textures.dino.runnin[1].img)
-		mlx_destroy_image(data->mlx->mlx, data->textures.dino.runnin[1].img);
-	if (data->mlx->img.img)
-		mlx_destroy_image(data->mlx->mlx, data->mlx->img.img);
-	mlx_destroy_window(data->mlx->mlx, data->mlx->windows);
-	mlx_destroy_display(data->mlx->mlx);
-	free(data->mlx->mlx);
-	exit(0);
-}
+
 
 int	move_hook(int keycode, t_game *data)
 {
 	if (keycode == XK_Escape)
-		destroy(data);
+		mlx_destroy_textures(data);
 	if (keycode == XK_e)
 		open_door(data);
 	if (keycode == XK_w || keycode == XK_s)
@@ -115,6 +88,7 @@ int	main(int ac, char **av)
 {
 	t_game game;
 
+	
 	if (!valid_args(ac, av)) // (1) && (2)
 		return (0);
 	if (valid_content(av[1], &game) && valid_textures(&game)) // (3)
@@ -124,18 +98,24 @@ int	main(int ac, char **av)
 	}
 	else
 		return (0);
+	game.mlx->mlx = mlx_init();
+	if (!game.mlx->mlx)
+		return (free_game(&game.textures, &game), 0);
 	game.map->map[(int)game.player->y][(int)game.player->x] = '0';
 	game.textures.dino.state = 0;
 	game.textures.dino.frame = 0;
 	game.textures.dino.time = clock();
-	game.mlx->mlx = mlx_init();
+	
 	game.mlx->windows = mlx_new_window(game.mlx->mlx, WIDTH, HEIGHT, "cube3D");
+	if (!game.mlx->windows)
+		return (free(game.mlx->mlx), free_game(&game.textures, &game), 0);
+	
 	game.mlx->img.img = mlx_new_image(game.mlx->mlx, WIDTH, HEIGHT);
 	game.mlx->img.addr = mlx_get_data_addr(game.mlx->img.img, &game.mlx->img.bpp,
 			&game.mlx->img.line_len, &game.mlx->img.endian);
 	if (!init_texture(&game))
-		return (0);
-	mlx_hook(game.mlx->windows, 17, (1L << 17), destroy, &game);
+		return (mlx_destroy_textures(&game), 0);
+	mlx_hook(game.mlx->windows, 17, (1L << 17), mlx_destroy_textures, &game);
 	mlx_hook(game.mlx->windows, 2, (1L << 0), move_hook, &game);
 	mlx_hook(game.mlx->windows, 6, (1L << 6), mouse_hook, &game);
 	mlx_hook(game.mlx->windows, 3, (1L << 1), key_release, &game);

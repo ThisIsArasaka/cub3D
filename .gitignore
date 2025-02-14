@@ -1,3 +1,4 @@
 obj/
 lib/mlx/
 cub3D
+.gitignore

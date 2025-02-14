@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:32:35 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 12:08:42 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:20:43 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,10 @@ int	valid_textures(t_game *g)
 			if (g->map->map)
 				return (1);
 			else
-				return (printf("Error : No map\n"), 0);
+				return (printf("Error\nNo map\n"), 0);
 		}
 	}
-	return (printf("Invalid content in \".cub\" file\n"), 0);
+	return (printf("Error\nInvalid content in \".cub\" file\n"), 0);
 }
 
 // Verifier toutes les data recuperee dans le .cub

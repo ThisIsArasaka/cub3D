@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:12:59 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 11:51:45 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:46:28 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,17 @@ void	get_player_pos(t_game *g, char **map)
 		x = 0;
 		y++;
 	}
+}
+
+void	free_tab(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }

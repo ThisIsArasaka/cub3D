@@ -6,11 +6,20 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:54:07 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 12:05:02 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 13:47:23 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int		is_sep(char c)
+{
+	if (c == ' ' || c == '\t')
+		return (1);
+	if (c == ',')
+		return (2);
+	return (0);
+}
 
 int		set_color(char *s, int color)
 {
@@ -25,19 +34,25 @@ int		set_color(char *s, int color)
 	cursor = 0;
 	while (s[i] && cursor != color)
 	{
-		while (s[i] && !ft_isdigit(s[i]))
-			i++;
 		if (cursor == color)
 			break ;
 		cursor++;
 		while (s[i] && ft_isdigit(s[i]))
 			i++;
+		if (s[i] == ',')
+			i++;
+		if (!ft_isdigit(s[i]) && is_sep(s[i]))
+			return (printf("ERRRR\n"), -1);
 	}
-	while (s[i] && !ft_isdigit(s[i]))
+	if (s[i] && s[i] == ',')
 		i++;
+	printf("collect : %s\n", s + i);
+	if (!find_number(s, i))
+		return (-1);
 	nb = ft_substr(s, i, find_number(s, i));
 	color_code = ft_atoi(nb);
 	free(nb);
+	printf("color:%d\n", color_code);
 	return (color_code);
 }
 // RECHECK CA
@@ -73,13 +88,13 @@ int		filled_texture(char *dir, char *str, int i, t_game *g)
 	if (!ft_strncmp(str + i, tab, 3) || !ft_strncmp(str + i, space, 3))
 	{
 		if (!ft_strncmp("NO", dir, 2) && !g->textures.north_wall)
-			return (0);
+			return (free(tab), free(space), 0);
 		if (!ft_strncmp("SO", dir, 2) && !g->textures.south_wall)
-			return (0);
+			return (free(tab), free(space), 0);
 		if (!ft_strncmp("WE", dir, 2) && !g->textures.west_wall)
-			return (0);
+			return (free(tab), free(space), 0);
 		if (!ft_strncmp("EA", dir, 2) && !g->textures.east_wall)
-			return (0);
+			return (free(tab), free(space), 0);
 	}
 	free(tab);
 	free(space);
@@ -102,10 +117,10 @@ int		direction_textures(char *str, t_game *g)
 	else if (!ft_strncmp(str + i, "EA", 2) && !filled_texture("EA", str, i, g))
 		g->textures.east_wall = ft_substr(str, next_word, ft_strlen(str));
 	else if (env_color(str, g))
-		return (1);
+		return (free(str), 1);
 	else
-		return (0);
-	return (1);
+		return (free(str), 0);
+	return (free(str), 1);
 }
 
 int		valid_content(char *map_file, t_game *g)
@@ -114,13 +129,12 @@ int		valid_content(char *map_file, t_game *g)
 	char	*line;
 
 	init_g(g);
-	// printf("map x:%d\n", g.map->max_height);
 	gnl.readed_time = 0;
 	gnl.filled = 0;
 	gnl.fd = open (map_file, O_RDONLY);
 	if (gnl.fd == -1)
 	{
-		printf("Error : Cannot open file \"%s\"\n", map_file);
+		printf("Error\n Cannot open file \"%s\"\n", map_file);
 		return (0);
 	}
 	line = get_next_line(gnl.fd);
@@ -133,15 +147,13 @@ int		valid_content(char *map_file, t_game *g)
 		{
 			map(g, &gnl, line);
 			if (!valid_map(g))
-				return (0);
+				return (close(gnl.fd), 0);
 			break ;
 		}
 		line = get_next_line(gnl.fd);
 	}
 	if (gnl.filled < 6)
-		printf("Error, there is textures missing\n");
-	// if (g->map->map)
-	// 	print_tab(g->map->map);
+		printf("Error\n There is textures missing\n");
 	close(gnl.fd);
 	return (1);
 }

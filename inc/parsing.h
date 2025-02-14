@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:42:20 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 10:46:31 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/14 12:47:02 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ void			print_tab(char **tab);
 char			*format(char *s);
 
 void			get_player_pos(t_game *g, char **map);
-
+void			free_tab(char **tab);
 
 /*-- PARSING ---------------------------------------*/
 int				valid_args(int ac, char **av);
@@ -182,5 +182,9 @@ int				is_player(char c);
 
 /*-- DESTROYER -------------------------------------*/
 void			free_list(t_list **node);
+int				mlx_destroy_textures(t_game *data);
+void			free_game(t_texture *assets, t_game *game);
+
+
 
 #endif
