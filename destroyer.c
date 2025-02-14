@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:27:57 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 13:08:33 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:24:16 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,24 @@
 
 void	free_game(t_texture *assets, t_game *game)
 {
-	free(assets->north_wall);
-	free(assets->west_wall);
-	free(assets->east_wall);
-	free(assets->south_wall);
-	free(assets->ceiling);
-	free(assets->floor);
-	free_tab(game->map->map);
-	free(game->map);
-	free(game->player);
-	free(game->mlx);
-	
+	if (assets)
+	{
+		free(assets->north_wall);
+		free(assets->west_wall);
+		free(assets->east_wall);
+		free(assets->south_wall);
+		free(assets->ceiling);
+		free(assets->floor);
+	}
+	if (game->map)
+	{
+		free_tab(game->map->map);
+		free(game->map);
+	}
+	if (game->player)
+		free(game->player);
+	if (game->mlx)
+		free(game->mlx);	
 }
 
 void	free_list(t_list **node)

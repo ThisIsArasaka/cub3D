@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
+/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/14 14:26:21 by olardeux         ###   ########.fr       */
+/*   Updated: 2025/02/14 16:20:08 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ int	main(int ac, char **av)
 		printf("Game start\n");
 	}
 	else
-		return (0);
+		return (free_game(&game.textures, &game), 0);
 	game.mlx->mlx = mlx_init();
 	if (!game.mlx->mlx)
 		return (free_game(&game.textures, &game), 0);
