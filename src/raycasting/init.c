@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 12:34:09 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:56:44 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,12 @@ int	init_texture(t_game *data)
 	data->textures.west.img = mlx_xpm_file_to_image(data->mlx->mlx,
 			data->textures.west_wall, &data->textures.west.width,
 			&data->textures.west.height);
-	data->textures.door.img = mlx_xpm_file_to_image(data->mlx->mlx, "sprite/DOOR.xpm",
+	data->textures.door.img = mlx_xpm_file_to_image(data->mlx->mlx,
+			"sprite/DOOR.xpm",
 			&data->textures.door.width, &data->textures.door.height);
 	if (!data->textures.north.img || !data->textures.south.img
-		|| !data->textures.east.img || !data->textures.west.img || !data->textures.door.img)
+		|| !data->textures.east.img || !data->textures.west.img
+		|| !data->textures.door.img)
 		return (0);
 	init_texture_img(data);
 	if (!init_dino(data))

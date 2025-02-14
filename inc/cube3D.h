@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3D.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:37:18 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 12:02:30 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:39:41 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 # define SPEED 0.1
 # define ROT_SPEED 0.31 / 2
 # define SENSITIVITY 0.005
-# define MARGIN 0.5
+# define MARGIN 0.2
 
 # define SOUTH PI / 2
 # define NORTH 3 * PI / 2

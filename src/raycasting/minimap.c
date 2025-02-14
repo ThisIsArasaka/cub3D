@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 14:17:27 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 11:41:57 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:57:09 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,13 @@ void	draw_front_arrow(t_game *data)
 		angle = data->player->dir + (PI * 5) / 6;
 		arrow_x = (100 + cos(data->player->dir) * 8) + cos(angle) * i;
 		arrow_y = (100 + sin(data->player->dir) * 8) + sin(angle) * i;
-		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y, MINIMAP_COLOR_PLAYER);
+		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y,
+			MINIMAP_COLOR_PLAYER);
 		angle = data->player->dir - (PI * 5) / 6;
 		arrow_x = (100 + cos(data->player->dir) * 8) + cos(angle) * i;
 		arrow_y = (100 + sin(data->player->dir) * 8) + sin(angle) * i;
-		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y, MINIMAP_COLOR_PLAYER);
+		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y,
+			MINIMAP_COLOR_PLAYER);
 		i++;
 	}
 }
@@ -48,11 +50,13 @@ void	draw_player_map(t_game *data)
 		angle = data->player->dir + (PI * 2) / 3;
 		arrow_x = 100 + cos(angle) * i;
 		arrow_y = 100 + sin(angle) * i;
-		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y, MINIMAP_COLOR_PLAYER);
+		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y,
+			MINIMAP_COLOR_PLAYER);
 		angle = data->player->dir - (PI * 2) / 3;
 		arrow_x = 100 + cos(angle) * i;
 		arrow_y = 100 + sin(angle) * i;
-		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y, MINIMAP_COLOR_PLAYER);
+		my_mlx_pixel_put(&data->mlx->img, arrow_x, arrow_y,
+			MINIMAP_COLOR_PLAYER);
 		i++;
 	}
 }

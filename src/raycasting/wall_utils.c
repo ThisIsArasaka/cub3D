@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wall_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 13:02:11 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 11:47:28 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:57:20 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void	draw_wall_pixel(t_game *data, t_img *texture, int x)
 		data->ray.tex_pos += data->ray.step;
 		data->ray.color = get_pixel_color(texture, data->ray.texture_x,
 				data->ray.texture_y);
-		my_mlx_pixel_put(&data->mlx->img, x, data->ray.wall_start, data->ray.color);
+		my_mlx_pixel_put(&data->mlx->img, x, data->ray.wall_start,
+			data->ray.color);
 		data->ray.wall_start++;
 	}
 }

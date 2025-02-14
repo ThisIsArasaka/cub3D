@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:42:20 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 12:02:32 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:46:31 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ typedef struct s_player
 	double		x;
 	double		y;
 	double 		dir;
+	double		new_x;
+	double		new_y;
+	double		check_x;
+	double		check_y;
 	char		direction;
 }				t_player;
 

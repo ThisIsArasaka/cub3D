@@ -3,87 +3,109 @@
 /*                                                        :::      ::::::::   */
 /*   move.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/26 19:42:21 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 11:46:33 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 10:55:36 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
 
-void	is_valid_position(t_game *data, double *new_x, double *new_y)
+int	is_valid_position(t_game *data, double new_x, double new_y)
 {
 	int	map_x;
 	int	map_y;
 
-	map_x = (int)*new_x;
-	map_y = (int)*new_y;
+	map_x = (int)new_x;
+	map_y = (int)new_y;
 	if (data->map->map[(int)data->player->y][map_x] != '0'
 		&& data->map->map[(int)data->player->y][map_x] != 'O')
-		*new_x = data->player->x;
+		return (0);
 	if (data->map->map[map_y][(int)data->player->x] != '0'
 		&& data->map->map[map_y][(int)data->player->x] != 'O')
-		*new_y = data->player->y;
+		return (0);
+	return (1);
+}
+
+void	init_check_forward(t_game *data, int key)
+{
+	if (key == XK_w)
+	{
+		data->player->new_x = data->player->x + cos(data->player->dir) * SPEED;
+		data->player->new_y = data->player->y + sin(data->player->dir) * SPEED;
+		data->player->check_x = data->player->x + cos(data->player->dir)
+			* (SPEED + MARGIN);
+		data->player->check_y = data->player->y + sin(data->player->dir)
+			* (SPEED + MARGIN);
+	}
+	if (key == XK_s)
+	{
+		data->player->new_x = data->player->x - cos(data->player->dir) * SPEED;
+		data->player->new_y = data->player->y - sin(data->player->dir) * SPEED;
+		data->player->check_x = data->player->x - cos(data->player->dir)
+			* (SPEED + MARGIN);
+		data->player->check_y = data->player->y - sin(data->player->dir)
+			* (SPEED + MARGIN);
+	}
+}
+
+void	init_check_sideways(t_game *data, int key)
+{
+	if (key == XK_a)
+	{
+		data->player->new_x = data->player->x + sin(data->player->dir) * SPEED;
+		data->player->new_y = data->player->y - cos(data->player->dir) * SPEED;
+		data->player->check_x = data->player->x + sin(data->player->dir)
+			* (SPEED + MARGIN);
+		data->player->check_y = data->player->y - cos(data->player->dir)
+			* (SPEED + MARGIN);
+	}
+	if (key == XK_d)
+	{
+		data->player->new_x = data->player->x - sin(data->player->dir) * SPEED;
+		data->player->new_y = data->player->y + cos(data->player->dir) * SPEED;
+		data->player->check_x = data->player->x - sin(data->player->dir)
+			* (SPEED + MARGIN);
+		data->player->check_y = data->player->y + cos(data->player->dir)
+			* (SPEED + MARGIN);
+	}
 }
 
 void	move_forward(t_game *data, int keycode)
 {
-	double	new_x;
-	double	new_y;
-
+	init_check_forward(data, keycode);
 	if (keycode == XK_w)
 	{
-		new_x = data->player->x + cos(data->player->dir) * SPEED;
-		new_y = data->player->y + sin(data->player->dir) * SPEED;
-		is_valid_position(data, &new_x, &new_y);
-		data->player->x = new_x;
-		data->player->y = new_y;
+		if (is_valid_position(data, data->player->check_x, data->player->y))
+			data->player->x = data->player->new_x;
+		if (is_valid_position(data, data->player->x, data->player->check_y))
+			data->player->y = data->player->new_y;
 	}
 	if (keycode == XK_s)
 	{
-		new_x = data->player->x - cos(data->player->dir) * SPEED;
-		new_y = data->player->y - sin(data->player->dir) * SPEED;
-		is_valid_position(data, &new_x, &new_y);
-		data->player->x = new_x;
-		data->player->y = new_y;
+		if (is_valid_position(data, data->player->check_x, data->player->y))
+			data->player->x = data->player->new_x;
+		if (is_valid_position(data, data->player->x, data->player->check_y))
+			data->player->y = data->player->new_y;
 	}
 }
 
 void	move_sideways(t_game *data, int keycode)
 {
-	double	new_x;
-	double	new_y;
-
+	init_check_sideways(data, keycode);
 	if (keycode == XK_a)
 	{
-		new_x = data->player->x + sin(data->player->dir) * SPEED;
-		new_y = data->player->y - cos(data->player->dir) * SPEED;
-		is_valid_position(data, &new_x, &new_y);
-		data->player->x = new_x;
-		data->player->y = new_y;
+		if (is_valid_position(data, data->player->check_x, data->player->y))
+			data->player->x = data->player->new_x;
+		if (is_valid_position(data, data->player->x, data->player->check_y))
+			data->player->y = data->player->new_y;
 	}
 	if (keycode == XK_d)
 	{
-		new_x = data->player->x - sin(data->player->dir) * SPEED;
-		new_y = data->player->y + cos(data->player->dir) * SPEED;
-		is_valid_position(data, &new_x, &new_y);
-		data->player->x = new_x;
-		data->player->y = new_y;
+		if (is_valid_position(data, data->player->check_x, data->player->y))
+			data->player->x = data->player->new_x;
+		if (is_valid_position(data, data->player->x, data->player->check_y))
+			data->player->y = data->player->new_y;
 	}
-}
-
-void	open_door(t_game *data)
-{
-	int	map_x;
-	int	map_y;
-
-	map_x = (int)(data->player->x + cos(data->player->dir));
-	map_y = (int)(data->player->y + sin(data->player->dir));
-	if (data->map->map[map_y][map_x] == '1')
-		return ;
-	if (data->map->map[map_y][map_x] == 'P')
-		data->map->map[map_y][map_x] = 'O';
-	else if (data->map->map[map_y][map_x] == 'O')
-		data->map->map[map_y][map_x] = 'P';
 }

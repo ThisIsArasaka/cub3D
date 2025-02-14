@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/07 10:36:46 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/13 13:10:54 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 11:23:13 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ int	move_hook(int keycode, t_game *data)
 		data->player->dir -= ROT_SPEED;
 	if (keycode == XK_Right)
 		data->player->dir += ROT_SPEED;
-	printf("x: %f, y: %f, dir: %f\n", data->player->x, data->player->y,
-		data->player->dir);
 	return (0);
 }
 
@@ -90,6 +88,21 @@ int	draw(t_game *data)
 	return (0);
 }
 
+void	open_door(t_game *data)
+{
+	int	map_x;
+	int	map_y;
+
+	map_x = (int)(data->player->x + cos(data->player->dir));
+	map_y = (int)(data->player->y + sin(data->player->dir));
+	if (data->map->map[map_y][map_x] == '1')
+		return ;
+	if (data->map->map[map_y][map_x] == 'P')
+		data->map->map[map_y][map_x] = 'O';
+	else if (data->map->map[map_y][map_x] == 'O')
+		data->map->map[map_y][map_x] = 'P';
+}
+
 int	key_release(int keycode, t_game *data)
 {
 	if (keycode == XK_Tab)
@@ -109,7 +122,9 @@ int	main(int ac, char **av)
 		get_player_pos(&game, game.map->map);
 		printf("Game start\n");
 	}
-
+	else
+		return (0);
+	game.map->map[(int)game.player->y][(int)game.player->x] = '0';
 	game.textures.dino.state = 0;
 	game.textures.dino.frame = 0;
 	game.textures.dino.time = clock();
@@ -125,7 +140,7 @@ int	main(int ac, char **av)
 	mlx_hook(game.mlx->windows, 6, (1L << 6), mouse_hook, &game);
 	mlx_hook(game.mlx->windows, 3, (1L << 1), key_release, &game);
 	mlx_loop_hook(game.mlx->mlx, draw, &game);
-	mlx_mouse_hide(game.mlx->mlx, game.mlx->windows);
+	//mlx_mouse_hide(game.mlx->mlx, game.mlx->windows);
 	mlx_loop(game.mlx->mlx);
 	
 	return (0);
