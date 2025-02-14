@@ -6,59 +6,15 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:54:07 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 13:47:23 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:12:55 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int		is_sep(char c)
+int	env_color(char *s, t_game *game)
 {
-	if (c == ' ' || c == '\t')
-		return (1);
-	if (c == ',')
-		return (2);
-	return (0);
-}
-
-int		set_color(char *s, int color)
-{
-	int		i;
-	int		cursor;
-	int		color_code;
-	char	*nb;
-
-	i = skip_space(s, 0);
-	i++;
-	i = skip_space(s, i);
-	cursor = 0;
-	while (s[i] && cursor != color)
-	{
-		if (cursor == color)
-			break ;
-		cursor++;
-		while (s[i] && ft_isdigit(s[i]))
-			i++;
-		if (s[i] == ',')
-			i++;
-		if (!ft_isdigit(s[i]) && is_sep(s[i]))
-			return (printf("ERRRR\n"), -1);
-	}
-	if (s[i] && s[i] == ',')
-		i++;
-	printf("collect : %s\n", s + i);
-	if (!find_number(s, i))
-		return (-1);
-	nb = ft_substr(s, i, find_number(s, i));
-	color_code = ft_atoi(nb);
-	free(nb);
-	printf("color:%d\n", color_code);
-	return (color_code);
-}
-// RECHECK CA
-int		env_color(char *s, t_game *game)
-{
-	int		i;
+	int	i;
 
 	i = skip_space(s, 0);
 	if (!ft_strncmp("C ", s + i, 2) || !ft_strncmp("C\t", s + i, 2))
@@ -78,7 +34,7 @@ int		env_color(char *s, t_game *game)
 	return (0);
 }
 
-int		filled_texture(char *dir, char *str, int i, t_game *g)
+int	filled_texture(char *dir, char *str, int i, t_game *g)
 {
 	char	*space;
 	char	*tab;
@@ -101,10 +57,10 @@ int		filled_texture(char *dir, char *str, int i, t_game *g)
 	return (1);
 }
 
-int		direction_textures(char *str, t_game *g)
+int	direction_textures(char *str, t_game *g)
 {
-	int		i;
-	int		next_word;
+	int	i;
+	int	next_word;
 
 	i = skip_space(str, 0);
 	next_word = skip_space(str, i + 2);
@@ -123,20 +79,22 @@ int		direction_textures(char *str, t_game *g)
 	return (free(str), 1);
 }
 
-int		valid_content(char *map_file, t_game *g)
+int	init_gnl(t_gnlassets *gnl, char *map)
 {
-	t_gnlassets		gnl;
-	char	*line;
+	gnl->readed_time = 0;
+	gnl->filled = 0;
+	return (open(map, O_RDONLY));
+}
+
+int	valid_content(char *map_file, t_game *g)
+{
+	t_gnlassets	gnl;
+	char		*line;
 
 	init_g(g);
-	gnl.readed_time = 0;
-	gnl.filled = 0;
-	gnl.fd = open (map_file, O_RDONLY);
+	gnl.fd = init_gnl(&gnl, map_file);
 	if (gnl.fd == -1)
-	{
-		printf("Error\n Cannot open file \"%s\"\n", map_file);
-		return (0);
-	}
+		return (printf("Error\n Cannot open file \"%s\"\n", map_file), 0);
 	line = get_next_line(gnl.fd);
 	while (line)
 	{
@@ -154,8 +112,7 @@ int		valid_content(char *map_file, t_game *g)
 	}
 	if (gnl.filled < 6)
 		printf("Error\n There is textures missing\n");
-	close(gnl.fd);
-	return (1);
+	return (close(gnl.fd), 1);
 }
 
 // Ce qui manque : Mettre le chemin dans le truc

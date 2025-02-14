@@ -24,10 +24,11 @@ SOURCES = main.c \
 destroyer.c \
 src/parsing/init.c \
 src/parsing/map_check.c \
-src/parsing/parsing.c \
 src/parsing/utils1.c \
 src/parsing/utils2.c \
 src/parsing/utils3.c \
+src/parsing/utils4.c \
+src/parsing/utils5.c \
 src/parsing/verify.c \
 src/raycasting/dda.c \
 src/raycasting/draw.c \

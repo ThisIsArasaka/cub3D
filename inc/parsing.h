@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:42:20 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 12:47:02 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:12:45 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_player
 {
 	double		x;
 	double		y;
-	double 		dir;
+	double		dir;
 	double		new_x;
 	double		new_y;
 	double		check_x;
@@ -103,13 +103,12 @@ typedef struct s_color
 	int			blue;
 }				t_color;
 
-
 typedef struct s_minimap
 {
-	int is_active;
-	int arrow_x;
-	int arrow_y;
-	double angle;
+	int			is_active;
+	int			arrow_x;
+	int			arrow_y;
+	double		angle;
 }				t_minimap;
 
 typedef struct s_dino
@@ -127,7 +126,7 @@ typedef struct s_texture
 	t_img		south;
 	t_img		east;
 	t_img		west;
-	
+
 	void		*north_wall;
 	void		*west_wall;
 	void		*east_wall;
@@ -146,7 +145,7 @@ typedef struct s_game
 	t_map		*map;
 	t_texture	textures;
 	t_mlx		*mlx;
-	
+
 	t_ray		ray;
 }				t_game;
 
@@ -164,6 +163,18 @@ char			*format(char *s);
 
 void			get_player_pos(t_game *g, char **map);
 void			free_tab(char **tab);
+
+void			print_list(t_list *lst);
+int				last_char(char c, char *s);
+int				tab_len(char **tab);
+int				is_player(char c);
+int				find_zero(char *s);
+
+int				near_void(char **map, int x, int y);
+int				first_nb_pos(char *s);
+int				forbidden_char(char c);
+int				is_sep(char c);
+int				set_color(char *s, int color);
 
 /*-- PARSING ---------------------------------------*/
 int				valid_args(int ac, char **av);
@@ -184,7 +195,5 @@ int				is_player(char c);
 void			free_list(t_list **node);
 int				mlx_destroy_textures(t_game *data);
 void			free_game(t_texture *assets, t_game *game);
-
-
 
 #endif

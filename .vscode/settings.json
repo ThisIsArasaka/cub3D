@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"*.c": "c",
-		"cube3d.h": "c"
+		"cube3d.h": "c",
+		"parsing.h": "c"
 	}
 }

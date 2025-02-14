@@ -6,15 +6,15 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:12:59 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 16:25:35 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:27:43 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int		valid_extension(char *str)
+int	valid_extension(char *str)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (!str)
@@ -26,7 +26,7 @@ int		valid_extension(char *str)
 	return (1);
 }
 
-int		valid_args(int ac, char **av)
+int	valid_args(int ac, char **av)
 {
 	if (ac != 2)
 	{
@@ -45,7 +45,7 @@ int		valid_args(int ac, char **av)
 void	get_player_pos(t_game *g, char **map)
 {
 	int	x;
-	int y;
+	int	y;
 
 	x = 0;
 	y = 0;

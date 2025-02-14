@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/07 15:32:35 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 13:20:43 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:46:00 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,3 @@ int	valid_textures(t_game *g)
 	}
 	return (printf("Error\nInvalid content in \".cub\" file\n"), 0);
 }
-
-// Verifier toutes les data recuperee dans le .cub
-// Changer les path en textures
-// Verifier si les couleurs sont dans la bonne range (0->255)
-// Verifier la map (Pas sur ici)

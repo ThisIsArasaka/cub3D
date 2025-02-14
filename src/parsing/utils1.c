@@ -6,13 +6,13 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:27:21 by michen            #+#    #+#             */
-/*   Updated: 2025/02/13 11:51:47 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:00:57 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int		list_len(t_list *map)
+int	list_len(t_list *map)
 {
 	int	len;
 
@@ -29,12 +29,12 @@ int		list_len(t_list *map)
 
 char	**list_to_tab(t_list *map)
 {
-	char **tab;
-	int	x;
+	char	**tab;
+	int		x;
 
 	if (!map || !map->content)
 		return (NULL);
-	tab = ft_calloc(sizeof(char*), list_len(map) + 1);
+	tab = ft_calloc(sizeof(char *), list_len(map) + 1);
 	x = 0;
 	while (map != NULL)
 	{
@@ -45,12 +45,7 @@ char	**list_to_tab(t_list *map)
 	return (tab);
 }
 
-// void	add_to_map(char *s, t_list *map) // un peu useless
-// {
-// 	ft_lstadd_back(&map, ft_lstnew(s));
-// }
-
-int		skip_space(char *str, int actual_pos)
+int	skip_space(char *str, int actual_pos)
 {
 	int	i;
 
@@ -64,8 +59,8 @@ int		skip_space(char *str, int actual_pos)
 
 char	*fill_with_space(char *s, int len)
 {
-	int i;
-	char *str;
+	int		i;
+	char	*str;
 
 	str = ft_calloc(sizeof(char), len + 1);
 	i = 0;
@@ -83,10 +78,10 @@ char	*fill_with_space(char *s, int len)
 	return (str);
 }
 
-int		longest_str(char **tab)
+int	longest_str(char **tab)
 {
 	int	max;
-	int x;
+	int	x;
 
 	max = 0;
 	x = 0;
@@ -98,16 +93,3 @@ int		longest_str(char **tab)
 	}
 	return (max);
 }
-
-// int		valid_file(char *str)
-// {
-// 	/*get_next_line(fd)
-// 	if(le fichier existe)
-// 		return (1);
-// 	else
-// 	{
-// 		printf("File doesnt exist\n");
-		
-// 	}
-// 	*/
-// }
