@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:12:59 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 17:27:43 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:24:33 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,13 @@ void	free_tab(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void	free_config(t_game *g)
+{
+	free(g->player);
+	free(g->map);
+	free(g->mlx);
+	free(g->textures.ceiling);
+	free(g->textures.floor);
 }

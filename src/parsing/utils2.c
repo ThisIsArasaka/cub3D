@@ -6,20 +6,11 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/06 12:08:01 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 16:43:45 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:22:31 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-void	free_config(t_game *g)
-{
-	free(g->player);
-	free(g->map);
-	free(g->mlx);
-	free(g->textures.ceiling);
-	free(g->textures.floor);
-}
 
 int	init_g2(t_game *g)
 {

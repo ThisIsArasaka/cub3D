@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 11:42:20 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 17:12:45 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 12:02:27 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ typedef struct s_player
 typedef struct s_mlx
 {
 	void		*mlx;
-	// void		*ptr;
 	t_img		img;
 	void		*windows;
 }				t_mlx;
@@ -163,6 +162,7 @@ char			*format(char *s);
 
 void			get_player_pos(t_game *g, char **map);
 void			free_tab(char **tab);
+void			free_config(t_game *g);
 
 void			print_list(t_list *lst);
 int				last_char(char c, char *s);
@@ -190,10 +190,17 @@ int				valid_textures(t_game *g);
 void			map(t_game *g, t_gnlassets *gnl, char *line);
 int				valid_map(t_game *g);
 int				is_player(char c);
+int				closed_map(char **map);
 
 /*-- DESTROYER -------------------------------------*/
 void			free_list(t_list **node);
 int				mlx_destroy_textures(t_game *data);
 void			free_game(t_texture *assets, t_game *game);
+
+/*-- INIT MAIN -------------------------------------*/
+int				draw(t_game *data);
+void			init_dir(t_game *game);
+void			open_door(t_game *data);
+void			init_var(t_game *game);
 
 #endif

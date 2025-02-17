@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/30 12:54:07 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 17:12:55 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 12:02:54 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,3 @@ int	valid_content(char *map_file, t_game *g)
 		printf("Error\n There is textures missing\n");
 	return (close(gnl.fd), 1);
 }
-
-// Ce qui manque : Mettre le chemin dans le truc

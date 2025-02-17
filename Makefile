@@ -22,8 +22,10 @@ NAME = cub3D
 
 SOURCES = main.c \
 destroyer.c \
+init_main.c \
 src/parsing/init.c \
 src/parsing/map_check.c \
+src/parsing/map_check2.c \
 src/parsing/utils1.c \
 src/parsing/utils2.c \
 src/parsing/utils3.c \

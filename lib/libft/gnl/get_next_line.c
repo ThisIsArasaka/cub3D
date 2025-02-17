@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/22 22:59:46 by michen            #+#    #+#             */
-/*   Updated: 2025/02/01 15:52:41 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 11:25:07 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ char	*ft_newline(char *line, char *buffer)
 	line[j + 1] = '\0';
 	return (line);
 }
+
 int	ft_toutvabien(char **line, char *buffer, int fd)
 {
 	ssize_t	bytes;
@@ -39,6 +40,7 @@ int	ft_toutvabien(char **line, char *buffer, int fd)
 	}
 	return (1);
 }
+
 char	*get_next_line(int fd)
 {
 	static char	buffer[BUFFER_SIZE + 1];
