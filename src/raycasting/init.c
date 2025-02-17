@@ -3,28 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/27 11:47:31 by olardeux          #+#    #+#             */
-/*   Updated: 2025/02/14 13:07:55 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 09:26:54 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3D.h"
 
-void init_to_null(t_game *game)
+void	init_to_null(t_game *game)
 {
 	game->textures.east.img = NULL;
 	game->textures.north.img = NULL;
 	game->textures.west.img = NULL;
 	game->textures.south.img = NULL;
-	
 	game->textures.dino.idle[0].img = NULL;
 	game->textures.dino.idle[1].img = NULL;
 	game->textures.dino.runnin[0].img = NULL;
 	game->textures.dino.runnin[1].img = NULL;
-
-	
 	game->textures.door.img = NULL;
 }
 

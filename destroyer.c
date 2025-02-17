@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroyer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
+/*   By: olardeux <olardeux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/31 16:27:57 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 16:24:16 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 09:45:36 by olardeux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	free_game(t_texture *assets, t_game *game)
 	if (game->player)
 		free(game->player);
 	if (game->mlx)
-		free(game->mlx);	
+		free(game->mlx);
 }
 
 void	free_list(t_list **node)
