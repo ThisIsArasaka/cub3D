@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/04 16:18:19 by michen            #+#    #+#             */
-/*   Updated: 2025/02/14 17:27:32 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 10:52:42 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	closed_map(char **map)
 
 	x = 0;
 	y = 0;
+	if (find_zero(map[y]))
+		return (printf("Error\nMap not closed\n"), 0);
 	while (map[y])
 	{
 		while (map[y][x])
@@ -39,6 +41,7 @@ int	closed_map(char **map)
 	if (find_zero(map[y - 1]))
 		return (printf("Error\nMap not closed\n"), 0);
 	return (1);
+
 }
 
 int	player_exist(char **map)
