@@ -6,7 +6,7 @@
 /*   By: michen <michen@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/14 16:47:35 by michen            #+#    #+#             */
-/*   Updated: 2025/02/17 11:14:51 by michen           ###   ########.fr       */
+/*   Updated: 2025/02/17 12:17:25 by michen           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	find_zero(char *s)
 	x = 0;
 	while (s[x])
 	{
-		if (s[x] == '0' || is_player(s[x]))
+		if (s[x] == '0' || is_player(s[x]) || s[x] == 'P')
 			return (0);
 		x++;
 	}
