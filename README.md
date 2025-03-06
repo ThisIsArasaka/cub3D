@@ -20,7 +20,7 @@ cub3D is a 3D game engine project inspired by the classic game Wolfenstein 3D. I
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/cub3D.git
+    git clone https://github.com/ThisIsArasaka/cub3D
     ```
 2. Navigate to the project directory:
     ```sh
